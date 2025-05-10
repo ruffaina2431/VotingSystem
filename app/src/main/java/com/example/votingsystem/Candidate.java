@@ -2,25 +2,28 @@ package com.example.votingsystem;
 
 public class Candidate {
     private String name;
-    private String party;
-    private int voteCount;
-    private boolean voted;
+    private int id;  // Add this field
+    private String position;
 
-    // Constructor with 3 parameters (name, party, vote count)
-    public Candidate(String name, String party, int voteCount) {
+    // Updated constructor
+    public Candidate(int id, String name, String position) {
+        this.id = id;
         this.name = name;
-        this.party = party;
-        this.voteCount = voteCount;
-        this.voted = false; // Default value
+        this.position = position;
     }
 
-    // Getter and Setter for name, party, vote count, and voted status
-    public String getName() { return name; }
-    public String getParty() { return party; }
-    public int getVoteCount() { return voteCount; }
-    public void setVoteCount(int voteCount) { this.voteCount = voteCount; }
+    // Add getter for ID
+    public int getId() {
+        return id;
+    }
 
-    // Getter and Setter for the voted field
-    public boolean isVoted() { return voted; }
-    public void setVoted(boolean voted) { this.voted = voted; }
+
+    // Getters and setters
+    public String getName() { return name; }
+    public String getPosition() { return position; }
+
+    @Override
+    public String toString() {
+        return name + " - " + position;
+    }
 }

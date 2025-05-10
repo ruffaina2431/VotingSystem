@@ -12,7 +12,7 @@ import java.util.List;
 public class VoteActivity extends AppCompatActivity {
 
     ListView listViewVote;
-    List<Candidate> candidates;
+    //List<Candidate> candidates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,14 +21,14 @@ public class VoteActivity extends AppCompatActivity {
 
         listViewVote = findViewById(R.id.listViewVote);
 
-        candidates = new ArrayList<>();
-        candidates.add(new Candidate("Alice Johnson", "Party A", 0)); // Added voteCount
-        candidates.add(new Candidate("Bob Smith", "Party B", 0));     // Added voteCount
-        candidates.add(new Candidate("Clara Lee", "Party C", 0));     // Added voteCount
+        //candidates = new ArrayList<>();
+        //candidates.add(new Candidate("Alice Johnson", "Party A", 0)); // Added voteCount
+       // candidates.add(new Candidate("Bob Smith", "Party B", 0));     // Added voteCount
+        //candidates.add(new Candidate("Clara Lee", "Party C", 0));     // Added voteCount
 
-        VoteAdapter adapter = new VoteAdapter(this, candidates);
+        //VoteAdapter adapter = new VoteAdapter(this, candidates);
 
-        listViewVote.setAdapter(adapter);
+        //listViewVote.setAdapter(adapter);
     }
 }
 

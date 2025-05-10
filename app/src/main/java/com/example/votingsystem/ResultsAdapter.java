@@ -32,7 +32,7 @@ public class ResultsAdapter extends ArrayAdapter<Candidate> {
         Candidate candidate = getItem(position);
         if (candidate != null) {
             name.setText(candidate.getName());
-            voteCount.setText(candidate.isVoted() ? "Votes: 1" : "Votes: 0"); // simple logic
+           // voteCount.setText(candidate.isVoted() ? "Votes: 1" : "Votes: 0"); // simple logic
         }
 
         return convertView;

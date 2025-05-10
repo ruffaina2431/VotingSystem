@@ -34,6 +34,7 @@ public class VoteAdapter extends ArrayAdapter<Candidate> {
         Button btnVote = convertView.findViewById(R.id.btnVote);
 
         Candidate candidate = getItem(position);
+        /*
         if (candidate != null) {
             tvName.setText(candidate.getName());
 
@@ -63,7 +64,7 @@ public class VoteAdapter extends ArrayAdapter<Candidate> {
             });
 
         }
-
+*/
         return convertView;
     }
 }
