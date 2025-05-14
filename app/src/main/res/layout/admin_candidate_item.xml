@@ -1,49 +1,57 @@
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:orientation="vertical"
+    android:padding="12dp">
 
+    <TextView
+        android:id="@+id/text_candidate_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Candidate Name"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/text_candidate_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Position" />
+
+    <TextView
+        android:id="@+id/text_candidate_party"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Party" />
+
+    <TextView
+        android:id="@+id/voteCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Votes: 0"
+        android:textColor="#FF5722"
+        android:textStyle="italic" />
+
+    <!-- Add these buttons to match your Java code -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btn_edit"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:text="Edit" />
 
-            <TextView
-                android:id="@+id/tvCandidateName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-
-            <ImageButton
-                android:id="@+id/btnEdit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_edit"
-                android:contentDescription="Edit"/>
-
-            <ImageButton
-                android:id="@+id/btnDelete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_delete"
-                android:contentDescription="Delete"/>
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvCandidatePosition"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"/>
+            android:layout_weight="1"
+            android:text="Delete" />
     </LinearLayout>
-
-
-</androidx.cardview.widget.CardView>
+</LinearLayout>

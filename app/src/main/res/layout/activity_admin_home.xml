@@ -1,45 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/admin_home_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center_horizontal">
+    android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tvWelcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome to the Voting System"
-        android:textSize="18sp"
-        android:layout_marginBottom="24dp"/>
+    <!-- Container for dynamic content -->
+    <FrameLayout
+        android:id="@+id/admin_content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
     <Button
-        android:id="@+id/btnViewCandidates"
+        android:id="@+id/btn_view_candidates"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="View Candidates" />
 
     <Button
-        android:id="@+id/btnCastVote"
+        android:id="@+id/btn_cast_vote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cast Vote"
-        android:layout_marginTop="12dp"/>
+        android:text="Cast Vote" />
 
     <Button
-        android:id="@+id/btnViewResults"
+        android:id="@+id/btn_view_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="View Results"
-        android:layout_marginTop="12dp"/>
+        android:text="View Result" />
 
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:layout_marginTop="12dp"/>
 
 </LinearLayout>
