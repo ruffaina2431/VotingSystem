@@ -1,19 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:padding="20dp"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <EditText
-        android:id="@+id/nameInput"
+        android:id="@+id/etName"
+        android:hint="Name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Candidate Name"/>
+        android:layout_height="wrap_content"/>
 
     <EditText
-        android:id="@+id/positionInput"
+        android:id="@+id/etPosition"
+        android:hint="Position"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/etParty"
+        android:hint="Party"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:text="Add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="Position"/>
+        android:layout_marginTop="16dp"/>
 </LinearLayout>
+

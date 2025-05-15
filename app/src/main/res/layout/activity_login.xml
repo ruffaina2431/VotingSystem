@@ -4,29 +4,40 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="24dp">
-
-    <EditText
-        android:id="@+id/etUsername"
+    <TextView
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username" />
+        android:text="LOG IN" />
 
     <EditText
-        android:id="@+id/etPassword"
+        android:id="@+id/edtEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:hint="Email" />
+
+    <EditText
+        android:id="@+id/edtPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
         android:inputType="textPassword" />
 
-    <Spinner
-        android:id="@+id/spinnerRole"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/user_roles" />
-
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:text="Login" />
+    <Button
+        android:id="@+id/btnSignUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SignUp" />
+
+
 </LinearLayout>
