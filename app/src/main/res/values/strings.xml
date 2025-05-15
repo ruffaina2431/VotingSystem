@@ -2,9 +2,10 @@
     <string name="app_name">VotingSystem</string>
 
     <string name="candidate_name">Candidate Name: %1$s</string>
-    <string-array name="user_roles">
-        <item>Admin</item>
+    <string-array name="roles_array">
         <item>Student</item>
+        <item>Admin</item>
     </string-array>
+
 
 </resources>

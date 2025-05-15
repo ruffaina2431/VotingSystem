@@ -132,7 +132,7 @@ public class CandidateRequest {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("action", "vote");
+                params.put("action", "cast_vote");
                 params.put("candidate_id", String.valueOf(candidateId));
                 return params;
             }

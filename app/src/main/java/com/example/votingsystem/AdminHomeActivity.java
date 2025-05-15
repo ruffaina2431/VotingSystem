@@ -1,5 +1,6 @@
 package com.example.votingsystem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -13,14 +14,14 @@ import com.example.votingsystem.fragment.VoteResultsFragment;
 
 public class AdminHomeActivity extends AppCompatActivity {
 
-    Button btnViewCandidates, btnCastVote, btnViewResult;
+    Button btnViewCandidates, btnCastVote, btnViewResult,btnLogout;
     FrameLayout contentFrame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_home);
-
+        btnLogout = findViewById(R.id.btnLogout);
         btnViewCandidates = findViewById(R.id.btn_view_candidates);
         btnCastVote = findViewById(R.id.btn_cast_vote);
         btnViewResult = findViewById(R.id.btn_view_result);
@@ -37,6 +38,13 @@ public class AdminHomeActivity extends AppCompatActivity {
         btnViewResult.setOnClickListener(v -> {
             loadFragment(new VoteResultsFragment()); // Load view results fragment
         });
+
+        //-----------------TO LOG-OUT -----------------------------------
+        Button btnLogout = findViewById(R.id.btnLogout);
+
+        btnLogout.setOnClickListener(v ->
+                startActivity(new Intent(this, LoginActivity.class)));
+        //-------------------------------------------------------------------
     }
 
     private void loadFragment(Fragment fragment) {
