@@ -13,7 +13,7 @@ import java.util.Map;
 public class CandidateRequest {
 
     public static void getAllCandidates(Context context, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
-        StringRequest request = new StringRequest(
+            StringRequest request = new StringRequest(
                 Request.Method.POST,
                 ApiURLs.BASE_URL,
                 response -> {
@@ -117,8 +117,8 @@ public class CandidateRequest {
         Volley.newRequestQueue(context).add(request);
     }
 
-    public static void voteForCandidate(Context context, int candidateId, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
-        StringRequest request = new StringRequest(
+    public static void voteForCandidate(Context context, int studentId, int candidateId, String position, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener)
+    {    StringRequest request = new StringRequest(
                 Request.Method.POST,
                 ApiURLs.BASE_URL,
                 response -> {
@@ -133,10 +133,12 @@ public class CandidateRequest {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("action", "cast_vote");
+                params.put("student_id", String.valueOf(studentId));
                 params.put("candidate_id", String.valueOf(candidateId));
+                params.put("position", position);
                 return params;
             }
-        };
+    };
         Volley.newRequestQueue(context).add(request);
     }
 
@@ -155,7 +157,7 @@ public class CandidateRequest {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("action", "get_vote_results");
+                params.put("action", "get_results");
                 return params;
             }
         };

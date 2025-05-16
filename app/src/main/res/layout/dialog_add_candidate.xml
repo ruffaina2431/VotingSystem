@@ -19,7 +19,7 @@
 
     <EditText
         android:id="@+id/etParty"
-        android:hint="Party"
+        android:hint="Party-list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

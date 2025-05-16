@@ -25,13 +25,6 @@
         android:layout_height="wrap_content"
         android:text="Party" />
 
-    <TextView
-        android:id="@+id/voteCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Votes: 0"
-        android:textColor="#FF5722"
-        android:textStyle="italic" />
 
     <!-- Add these buttons to match your Java code -->
     <LinearLayout

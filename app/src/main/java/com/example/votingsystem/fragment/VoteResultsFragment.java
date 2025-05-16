@@ -49,37 +49,36 @@ public class VoteResultsFragment extends Fragment {
     }
 
     private void loadVoteResults() {
-        // After populating candidateList and setting the adapter
-        if (candidateList.isEmpty()) {
-            txtNoCandidates.setVisibility(View.VISIBLE); // Show "No results yet"
-        } else {
-            txtNoCandidates.setVisibility(View.GONE); // Hide it
-            CandidateRequest.getVoteResults(getContext(), response -> {
-                candidateList.clear();
-                try {
-
-                    // Assume vote results are in a "results" array in the response
-                    for (int i = 0; i < response.getJSONArray("results").length(); i++) {
-                        JSONObject candidateData = response.getJSONArray("results").getJSONObject(i);
-                        AdminCandidates candidate = new AdminCandidates(
-                                candidateData.getInt("id"),
-                                candidateData.getString("name"),
-                                candidateData.getString("position"),
-                                candidateData.getString("party")
-                        );
-                        candidate.setVoteCount(candidateData.getInt("vote_count"));
-                        candidateList.add(candidate);
-                    }
-
-                    adapter = new VoteResultsAdapter(candidateList, getContext());
-                    recyclerView.setAdapter(adapter);
-                } catch (Exception e) {
-                    Toast.makeText(getContext(), "Error loading vote results", Toast.LENGTH_SHORT).show();
+        CandidateRequest.getVoteResults(getContext(), response -> {
+            candidateList.clear();
+            try {
+                // Assume vote results are in a "results" array in the response
+                for (int i = 0; i < response.getJSONArray("results").length(); i++) {
+                    JSONObject candidateData = response.getJSONArray("results").getJSONObject(i);
+                    AdminCandidates candidate = new AdminCandidates(
+                            candidateData.getInt("id"),
+                            candidateData.getString("name"),
+                            candidateData.getString("position"),
+                            candidateData.getString("party")
+                    );
+                    candidate.setVoteCount(candidateData.getInt("vote_count"));
+                    candidateList.add(candidate);
                 }
-            }, error -> {
-                Toast.makeText(getContext(), "Error loading vote results", Toast.LENGTH_SHORT).show();
-            });
-        }
 
+                // ✅ Check after the loop
+                if (candidateList.isEmpty()) {
+                    txtNoCandidates.setVisibility(View.VISIBLE);
+                } else {
+                    txtNoCandidates.setVisibility(View.GONE);
+                }
+
+                adapter = new VoteResultsAdapter(candidateList, getContext());
+                recyclerView.setAdapter(adapter);
+            } catch (Exception e) {
+                Toast.makeText(getContext(), "Error loading vote results", Toast.LENGTH_SHORT).show();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "Error loading vote results", Toast.LENGTH_SHORT).show();
+        });
     }
 }
