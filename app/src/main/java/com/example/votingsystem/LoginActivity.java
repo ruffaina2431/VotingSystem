@@ -1,6 +1,7 @@
 package com.example.votingsystem;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,7 +51,12 @@ public class LoginActivity extends AppCompatActivity {
                         JSONObject obj = new JSONObject(response);
                         if (obj.getBoolean("success")) {
                             JSONObject user = obj.getJSONObject("user");
+                            int userId = user.getInt("id"); // ✅ get user ID from response
                             String role = user.getString("role");
+
+                            // ✅ Save to SharedPreferences
+                            SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
+                            prefs.edit().putInt("user_id", userId).apply();
 
                             Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
 
@@ -82,5 +88,6 @@ public class LoginActivity extends AppCompatActivity {
         };
 
         Volley.newRequestQueue(this).add(request);
+
     }
 }

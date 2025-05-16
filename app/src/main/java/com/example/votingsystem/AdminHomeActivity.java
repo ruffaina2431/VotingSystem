@@ -11,46 +11,50 @@ import androidx.fragment.app.Fragment;
 import com.example.votingsystem.fragment.AdminCandidatesFragment;
 import com.example.votingsystem.fragment.VoteFragment;
 import com.example.votingsystem.fragment.VoteResultsFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class AdminHomeActivity extends AppCompatActivity {
 
-    Button btnViewCandidates, btnCastVote, btnViewResult,btnLogout;
-    FrameLayout contentFrame;
+    BottomNavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_home);
-        btnLogout = findViewById(R.id.btnLogout);
-        btnViewCandidates = findViewById(R.id.btn_view_candidates);
-        btnCastVote = findViewById(R.id.btn_cast_vote);
-        btnViewResult = findViewById(R.id.btn_view_result);
-        contentFrame = findViewById(R.id.admin_content_frame);
 
-        btnViewCandidates.setOnClickListener(v -> {
-            loadFragment(new AdminCandidatesFragment()); // Load view candidate fragment
+        bottomNav = findViewById(R.id.bottom_navigation_admin);
+
+        // Load default fragment
+        loadFragment(new AdminCandidatesFragment());
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            Fragment selectedFragment = null;
+
+            if (id == R.id.nav_candidates) {
+                selectedFragment = new AdminCandidatesFragment();
+            } else if (id == R.id.nav_vote) {
+                selectedFragment = new VoteFragment();
+            } else if (id == R.id.nav_result) {
+                selectedFragment = new VoteResultsFragment();
+            } else if (id == R.id.nav_logout) {
+                startActivity(new Intent(AdminHomeActivity.this, LoginActivity.class));
+                finish(); // Prevent going back to this activity
+                return true;
+            }
+
+            return loadFragment(selectedFragment);
         });
-
-        btnCastVote.setOnClickListener(v -> {
-            loadFragment(new VoteFragment()); // Load cast vote fragment
-        });
-
-        btnViewResult.setOnClickListener(v -> {
-            loadFragment(new VoteResultsFragment()); // Load view results fragment
-        });
-
-        //-----------------TO LOG-OUT -----------------------------------
-        Button btnLogout = findViewById(R.id.btnLogout);
-
-        btnLogout.setOnClickListener(v ->
-                startActivity(new Intent(this, LoginActivity.class)));
-        //-------------------------------------------------------------------
     }
 
-    private void loadFragment(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.admin_content_frame, fragment)
-                .commit();
+    private boolean loadFragment(Fragment fragment) {
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.admin_content_frame, fragment)
+                    .commit();
+            return true;
+        }
+        return false;
     }
 }

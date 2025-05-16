@@ -1,5 +1,7 @@
 package com.example.votingsystem.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,9 +26,9 @@ public class VoteFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private TextView txtNoCandidates;
-
     private VoteCandidatesAdapter adapter;
     private List<AdminCandidates> candidateList = new ArrayList<>();
+    private int studentId;
 
     public VoteFragment() {
         // Required empty public constructor
@@ -40,40 +42,50 @@ public class VoteFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view_candidates);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        loadCandidates();
+        SharedPreferences prefs = requireContext().getSharedPreferences("user_session", Context.MODE_PRIVATE);
+        studentId = prefs.getInt("user_id", -1);
+
+        if (studentId == -1) {
+            Toast.makeText(getContext(), "User not logged in", Toast.LENGTH_SHORT).show();
+            return view;
+        }
+
+        loadCandidates(); // ✅ Load the list of candidates
 
         return view;
     }
 
     private void loadCandidates() {
-        // ✅ Check after the loop
-        if (candidateList.isEmpty()) {
-            txtNoCandidates.setVisibility(View.VISIBLE);
-        } else {
-            txtNoCandidates.setVisibility(View.GONE);
-            CandidateRequest.getAllCandidates(getContext(), response -> {
-                candidateList.clear();
-                try {
-                    // Assume candidates are in a "candidates" array in the response
-                    for (int i = 0; i < response.getJSONArray("candidates").length(); i++) {
-                        JSONObject candidateData = response.getJSONArray("candidates").getJSONObject(i);
-                        AdminCandidates candidate = new AdminCandidates(
-                                candidateData.getInt("id"),
-                                candidateData.getString("name"),
-                                candidateData.getString("position"),
-                                candidateData.getString("party")
-                        );
-                        candidateList.add(candidate);
-                    }
-                    adapter = new VoteCandidatesAdapter(candidateList, getContext());
-                    recyclerView.setAdapter(adapter);
-                } catch (Exception e) {
-                    Toast.makeText(getContext(), "Error loading candidates", Toast.LENGTH_SHORT).show();
+        // You should have a method like CandidateRequest.getAllCandidates()
+        CandidateRequest.getAllCandidates(getContext(), response -> {
+            candidateList.clear();
+            try {
+                for (int i = 0; i < response.getJSONArray("candidates").length(); i++) {
+                    JSONObject candidateData = response.getJSONArray("candidates").getJSONObject(i);
+                    AdminCandidates candidate = new AdminCandidates(
+                            candidateData.getInt("id"),
+                            candidateData.getString("name"),
+                            candidateData.getString("position"),
+                            candidateData.getString("party")
+                    );
+                    candidateList.add(candidate);
                 }
-            }, error -> {
-                Toast.makeText(getContext(), "Error loading candidates", Toast.LENGTH_SHORT).show();
-            });
-        }
 
+                if (candidateList.isEmpty()) {
+                    txtNoCandidates.setVisibility(View.VISIBLE);
+                } else {
+                    txtNoCandidates.setVisibility(View.GONE);
+                }
+
+                // ✅ Pass studentId if needed for vote button logic
+                adapter = new VoteCandidatesAdapter(candidateList, getContext(), studentId);
+                recyclerView.setAdapter(adapter);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(getContext(), "Error loading candidates", Toast.LENGTH_SHORT).show();
+            }
+        }, error -> {
+            Toast.makeText(getContext(), "Error loading candidates", Toast.LENGTH_SHORT).show();
+        });
     }
 }
