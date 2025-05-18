@@ -27,7 +27,10 @@ public class HomeActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
         bottomNav = findViewById(R.id.bottom_navigation);
-
+        // Load UserCandidatesFragment into the frame layout
+        if (savedInstanceState == null) {
+            loadFragment(new CandidateFragment());
+        }
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {

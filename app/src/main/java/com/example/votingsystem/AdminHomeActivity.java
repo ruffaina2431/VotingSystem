@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.votingsystem.fragment.AdminCandidatesFragment;
+import com.example.votingsystem.fragment.CandidateFragment;
 import com.example.votingsystem.fragment.VoteFragment;
 import com.example.votingsystem.fragment.VoteResultsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,6 +23,10 @@ public class AdminHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_home);
 
+        // Load UserCandidatesFragment into the frame layout
+        if (savedInstanceState == null) {
+            loadFragment(new AdminCandidatesFragment());
+        }
         bottomNav = findViewById(R.id.bottom_navigation_admin);
 
         // Load default fragment
