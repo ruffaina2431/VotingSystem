@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.votingsystem.R;
 import com.example.votingsystem.adapter.VoteResultsAdapter;
-import com.example.votingsystem.model.AdminCandidates;
+import com.example.votingsystem.model.Candidates;
 import com.example.votingsystem.network.CandidateRequest;
 
 import org.json.JSONObject;
@@ -28,7 +28,7 @@ public class VoteResultsFragment extends Fragment {
     private TextView txtNoCandidates;
 
     private VoteResultsAdapter adapter;
-    private List<AdminCandidates> candidateList = new ArrayList<>();
+    private List<Candidates> candidateList = new ArrayList<>();
 
     public VoteResultsFragment() {
         // Required empty public constructor
@@ -55,7 +55,7 @@ public class VoteResultsFragment extends Fragment {
                 // Assume vote results are in a "results" array in the response
                 for (int i = 0; i < response.getJSONArray("results").length(); i++) {
                     JSONObject candidateData = response.getJSONArray("results").getJSONObject(i);
-                    AdminCandidates candidate = new AdminCandidates(
+                    Candidates candidate = new Candidates(
                             candidateData.getInt("id"),
                             candidateData.getString("name"),
                             candidateData.getString("position"),

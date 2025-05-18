@@ -9,16 +9,16 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.votingsystem.R;
-import com.example.votingsystem.model.AdminCandidates;
+import com.example.votingsystem.model.Candidates;
 
 import java.util.List;
 
 public class VoteResultsAdapter extends RecyclerView.Adapter<VoteResultsAdapter.ViewHolder> {
 
-    private List<AdminCandidates> candidates;
+    private List<Candidates> candidates;
     private Context context;
 
-    public VoteResultsAdapter(List<AdminCandidates> candidates, Context context) {
+    public VoteResultsAdapter(List<Candidates> candidates, Context context) {
         this.candidates = candidates;
         this.context = context;
     }
@@ -31,7 +31,7 @@ public class VoteResultsAdapter extends RecyclerView.Adapter<VoteResultsAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        AdminCandidates candidate = candidates.get(position);
+        Candidates candidate = candidates.get(position);
         holder.name.setText(candidate.getName());
         holder.position.setText(candidate.getPosition());
         holder.party.setText(candidate.getParty());

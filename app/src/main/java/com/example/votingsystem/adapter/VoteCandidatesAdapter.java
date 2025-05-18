@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.votingsystem.R;
-import com.example.votingsystem.model.AdminCandidates;
+import com.example.votingsystem.model.Candidates;
 import com.example.votingsystem.network.CandidateRequest;
 
 import java.util.List;
@@ -19,11 +19,11 @@ import java.util.List;
 public class VoteCandidatesAdapter extends RecyclerView.Adapter<VoteCandidatesAdapter.ViewHolder> {
 
 
-    private List<AdminCandidates> candidates;
+    private List<Candidates> candidates;
     private Context context;
     private int studentId;
 
-    public VoteCandidatesAdapter(List<AdminCandidates> candidates, Context context, int studentId) {
+    public VoteCandidatesAdapter(List<Candidates> candidates, Context context, int studentId) {
         this.candidates = candidates;
         this.context = context;
         this.studentId = studentId;
@@ -39,7 +39,7 @@ public class VoteCandidatesAdapter extends RecyclerView.Adapter<VoteCandidatesAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        AdminCandidates candidate = candidates.get(position);
+        Candidates candidate = candidates.get(position);
         holder.name.setText(candidate.getName());
         holder.position.setText(candidate.getPosition());
         holder.party.setText(candidate.getParty());
