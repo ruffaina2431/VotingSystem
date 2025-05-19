@@ -1,59 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_signuup"
     android:padding="24dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:layout_gravity="center">
+        android:gravity="center"
+        android:padding="16dp"
+        android:background="#B3FFFFFF"> <!-- Optional semi-transparent white layer -->
 
+        <!-- Title -->
         <TextView
-            android:id="@+id/txtSignupTitle"
+            android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="User Registration"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:layout_marginBottom="24dp" />
+            android:textColor="#000000"
+            android:layout_marginBottom="24dp"
+            android:gravity="center" />
 
+        <!-- Full Name -->
         <EditText
-            android:id="@+id/edtName"
+            android:id="@+id/etFullName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/edit_text_background"
             android:hint="Full Name"
+            android:hintTextColor="#000000"
             android:inputType="textPersonName"
-            android:layout_marginBottom="16dp" />
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textStyle="bold" />
 
+        <!-- Email -->
+
+        <!-- Password -->
         <EditText
-            android:id="@+id/edtEmail"
+            android:id="@+id/etEmail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/edit_text_background"
             android:hint="Email Address"
+            android:hintTextColor="#000000"
             android:inputType="textEmailAddress"
-            android:layout_marginBottom="16dp" />
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/edtPassword"
+            android:id="@+id/etPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="Password"
+            android:hintTextColor="#000000"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:padding="12dp"
+            android:background="@drawable/edit_text_background"
             android:inputType="textPassword"
             android:layout_marginBottom="16dp" />
 
+        <!-- Dropdown Spinner -->
+
+        <!-- Register Button -->
         <Spinner
             android:id="@+id/spinnerRole"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp" />
+            android:layout_height="48dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/edit_text_background" />
 
         <Button
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Register" />
+            android:layout_height="48dp"
+            android:text="Register"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#6C63FF"
+            android:background="@drawable/rounded_button" />
+
     </LinearLayout>
 </ScrollView>

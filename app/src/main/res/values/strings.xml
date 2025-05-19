@@ -1,11 +1,12 @@
 <resources>
-    <string name="app_name">VotingSystem</string>
-
-    <string name="candidate_name">Candidate Name: %1$s</string>
-    <string-array name="roles_array">
-        <item>Student</item>
-        <item>Admin</item>
-    </string-array>
+    <resources>
+        <string name="app_name">YourAppName</string>
+        <string name="user_registration">User Registration</string>
+        <string name="full_name">Full Name</string>
+        <string name="email_address">Email Address</string>
+        <string name="password">Password</string>
+        <string name="register">Register</string>
+    </resources>
 
 
 </resources>
