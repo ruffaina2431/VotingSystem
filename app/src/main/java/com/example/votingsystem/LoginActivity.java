@@ -43,6 +43,33 @@ public class LoginActivity extends AppCompatActivity {
         String email = edtEmail.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
 
+        // Validate input
+        if (email.isEmpty()) {
+            edtEmail.setError("Email is required");
+            edtEmail.requestFocus();
+            return;
+        }
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            edtEmail.setError("Enter a valid email");
+            edtEmail.requestFocus();
+            return;
+        }
+
+        if (password.isEmpty()) {
+            edtPassword.setError("Password is required");
+            edtPassword.requestFocus();
+            return;
+        }
+
+        // Optionally check password length
+        if (password.length() < 6) {
+            edtPassword.setError("Password must be at least 6 characters");
+            edtPassword.requestFocus();
+            return;
+        }
+
+        // Proceed with login request
         StringRequest request = new StringRequest(
                 com.android.volley.Request.Method.POST,
                 ApiURLs.BASE_URL,
@@ -51,10 +78,9 @@ public class LoginActivity extends AppCompatActivity {
                         JSONObject obj = new JSONObject(response);
                         if (obj.getBoolean("success")) {
                             JSONObject user = obj.getJSONObject("user");
-                            int userId = user.getInt("id"); // ✅ get user ID from response
+                            int userId = user.getInt("id");
                             String role = user.getString("role");
 
-                            // ✅ Save to SharedPreferences
                             SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
                             prefs.edit().putInt("user_id", userId).apply();
 
@@ -88,6 +114,6 @@ public class LoginActivity extends AppCompatActivity {
         };
 
         Volley.newRequestQueue(this).add(request);
-
     }
+
 }

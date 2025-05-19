@@ -10,6 +10,8 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AlertDialog;
+
 
 import com.example.votingsystem.fragment.CandidateFragment;
 import com.example.votingsystem.fragment.VoteFragment;
@@ -61,13 +63,24 @@ public class HomeActivity extends AppCompatActivity {
             } else if (id == R.id.nav_result) {
                 selectedFragment = new VoteResultsFragment();
             } else if (id == R.id.nav_logout) {
-                startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-                finish(); // Prevent going back to this activity
-                return true;
+                // Show confirmation dialog before logging out
+                new AlertDialog.Builder(HomeActivity.this)
+                        .setTitle("Logout")
+                        .setMessage("Are you sure you want to logout?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            // Proceed with logout
+                            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                            finish(); // Prevent returning to this activity
+                        })
+                        .setNegativeButton("Cancel", null) // Do nothing on cancel
+                        .show();
+
+                return true; // Prevent fragment change on logout click
             }
 
             return loadFragment(selectedFragment);
         });
+
     }
 
     private boolean loadFragment(Fragment fragment) {
