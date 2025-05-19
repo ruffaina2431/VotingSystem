@@ -1,6 +1,6 @@
 package com.example.votingsystem.model;
 
-public class AdminCandidates {
+public class Candidates {
     private int id;
     private String name;
     private String position;
@@ -8,7 +8,7 @@ public class AdminCandidates {
 
     private int voteCount; // Add vote count field
 
-    public AdminCandidates(int id, String name, String position, String party) {
+    public Candidates(int id, String name, String position, String party) {
         this.id = id;
         this.name = name;
         this.position = position;

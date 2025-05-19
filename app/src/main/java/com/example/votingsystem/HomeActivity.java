@@ -9,16 +9,28 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.activity.OnBackPressedCallback;
+import androidx.fragment.app.Fragment;
+
+import com.example.votingsystem.fragment.CandidateFragment;
+import com.example.votingsystem.fragment.VoteFragment;
+import com.example.votingsystem.fragment.VoteResultsFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 public class HomeActivity extends AppCompatActivity {
     private long backPressedTime;
     private Toast backPressedToast;
+    BottomNavigationView bottomNav;
     Button btnViewCandidates, btnCastVote, btnViewResults,btnLogout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
-
+        bottomNav = findViewById(R.id.bottom_navigation);
+        // Load UserCandidatesFragment into the frame layout
+        if (savedInstanceState == null) {
+            loadFragment(new CandidateFragment());
+        }
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -37,36 +49,36 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        //------------------TO VIEW CANDIDATES INFORMATION----------------
-        Button btnViewCandidates = findViewById(R.id.btnViewCandidates);
 
-        btnViewCandidates.setOnClickListener(v ->
-                startActivity(new Intent(this, CandidatesActivity.class)));
-        //----------------------------------------------------------------------
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            Fragment selectedFragment = null;
 
-        //-----------------TO CAST A VOTE -----------------------------------
-        Button btnCastVote = findViewById(R.id.btnCastVote);
+            if (id == R.id.nav_candidates) {
+                selectedFragment = new CandidateFragment();
+            } else if (id == R.id.nav_vote) {
+                selectedFragment = new VoteFragment();
+            } else if (id == R.id.nav_result) {
+                selectedFragment = new VoteResultsFragment();
+            } else if (id == R.id.nav_logout) {
+                startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                finish(); // Prevent going back to this activity
+                return true;
+            }
 
-        btnCastVote.setOnClickListener(v ->
-                startActivity(new Intent(this, VoteActivity.class)));
-        //-------------------------------------------------------------------
+            return loadFragment(selectedFragment);
+        });
+    }
 
-        //-----------------TO VIEW THE RESULT -----------------------------------
-        Button btnViewResults = findViewById(R.id.btnViewResults);
-
-        btnViewResults.setOnClickListener(v ->
-                startActivity(new Intent(this, ResultActivity.class)));
-        //-------------------------------------------------------------------
-
-        //-----------------TO LOG-OUT -----------------------------------
-        Button btnLogout = findViewById(R.id.btnLogout);
-
-        btnLogout.setOnClickListener(v ->
-                startActivity(new Intent(this, LoginActivity.class)));
-        //-------------------------------------------------------------------
-
-
-
+    private boolean loadFragment(Fragment fragment) {
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.content_frame, fragment)
+                    .commit();
+            return true;
+        }
+        return false;
     }
 
 

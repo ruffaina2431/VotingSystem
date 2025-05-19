@@ -1,45 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/admin_home_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center_horizontal">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvWelcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome to the Voting System"
-        android:textSize="18sp"
-        android:layout_marginBottom="24dp"/>
+    <!-- Dynamic content area -->
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
-    <Button
-        android:id="@+id/btnViewCandidates"
+    <!-- Bottom Navigation -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="View Candidates" />
-
-    <Button
-        android:id="@+id/btnCastVote"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cast Vote"
-        android:layout_marginTop="12dp"/>
-
-    <Button
-        android:id="@+id/btnViewResults"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="View Results"
-        android:layout_marginTop="12dp"/>
-
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        android:layout_marginTop="12dp"/>
+        android:background="?android:attr/windowBackground"
+        app:menu="@menu/admin_bottom_nav_menu" />
 
 </LinearLayout>

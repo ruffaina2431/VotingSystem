@@ -16,7 +16,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.votingsystem.R;
-import com.example.votingsystem.model.AdminCandidates;
+import com.example.votingsystem.model.Candidates;
 import com.example.votingsystem.network.CandidateRequest;
 
 
@@ -26,10 +26,10 @@ import java.util.List;
 
 public class AdminCandidatesAdapter extends RecyclerView.Adapter<AdminCandidatesAdapter.ViewHolder> {
 
-    private List<AdminCandidates> candidatesList;
+    private List<Candidates> candidatesList;
     private Context context;
 
-    public AdminCandidatesAdapter(List<AdminCandidates> candidatesList, Context context) {
+    public AdminCandidatesAdapter(List<Candidates> candidatesList, Context context) {
         this.candidatesList = candidatesList;
         this.context = context;
     }
@@ -45,7 +45,7 @@ public class AdminCandidatesAdapter extends RecyclerView.Adapter<AdminCandidates
 
     @Override
     public void onBindViewHolder(AdminCandidatesAdapter.ViewHolder holder, int position) {
-        AdminCandidates candidate = candidatesList.get(position);
+        Candidates candidate = candidatesList.get(position);
 
         holder.nameText.setText(candidate.getName());
         holder.positionText.setText(candidate.getPosition());

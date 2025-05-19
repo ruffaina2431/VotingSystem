@@ -11,12 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.votingsystem.dialog.AddCandidateDialog;
 import com.example.votingsystem.R;
-import com.example.votingsystem.adapter.AdminCandidatesAdapter;
+import com.example.votingsystem.adapter.CandidatesAdapter;
 import com.example.votingsystem.model.Candidates;
 import com.example.votingsystem.network.CandidateRequest;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,35 +23,27 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminCandidatesFragment extends Fragment {
+public class CandidateFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private TextView txtNoCandidates;
 
-    private FloatingActionButton btnAddCandidate;
-
-    private AdminCandidatesAdapter adapter;
+    private CandidatesAdapter adapter;
     private List<Candidates> candidateList = new ArrayList<>();
 
-    public AdminCandidatesFragment() {
+    public CandidateFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_admin_candidates, container, false);
+        View view = inflater.inflate(R.layout.fragment_candidates, container, false);
         txtNoCandidates = view.findViewById(R.id.txt_no_candidates);
-        btnAddCandidate = view.findViewById(R.id.btnAddCandidate);
         recyclerView = view.findViewById(R.id.recycler_view_candidates);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        btnAddCandidate.setOnClickListener(v -> {
-            AddCandidateDialog dialog = AddCandidateDialog.newInstance(this::loadCandidates);
-            dialog.show(getParentFragmentManager(), "addCandidate");
-        });
-
-        adapter = new AdminCandidatesAdapter(candidateList, getContext());
+        adapter = new CandidatesAdapter(candidateList, getContext());
         recyclerView.setAdapter(adapter);
 
         loadCandidates();
@@ -80,12 +70,13 @@ public class AdminCandidatesFragment extends Fragment {
 
                             candidateList.add(candidate);
                         }
-                        // ✅ Check after the loop
+
                         if (candidateList.isEmpty()) {
                             txtNoCandidates.setVisibility(View.VISIBLE);
                         } else {
                             txtNoCandidates.setVisibility(View.GONE);
                         }
+
                         adapter.notifyDataSetChanged();
                     } catch (JSONException e) {
                         e.printStackTrace();

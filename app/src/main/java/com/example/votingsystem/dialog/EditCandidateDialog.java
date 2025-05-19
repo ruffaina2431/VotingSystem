@@ -13,7 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.votingsystem.R;
-import com.example.votingsystem.model.AdminCandidates;
+import com.example.votingsystem.model.Candidates;
 import com.example.votingsystem.network.CandidateRequest;
 
 import org.json.JSONException;
@@ -21,10 +21,10 @@ import org.json.JSONObject;
 
 public class EditCandidateDialog extends DialogFragment {
 
-    private AdminCandidates candidate;
+    private Candidates candidate;
     private Runnable onSuccess;
 
-    public static EditCandidateDialog newInstance(AdminCandidates candidate, Runnable onSuccess) {
+    public static EditCandidateDialog newInstance(Candidates candidate, Runnable onSuccess) {
         EditCandidateDialog dialog = new EditCandidateDialog();
         dialog.candidate = candidate;
         dialog.onSuccess = onSuccess;
