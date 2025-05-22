@@ -7,6 +7,7 @@ import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AlertDialog;
 
 import com.example.votingsystem.fragment.AdminCandidatesFragment;
 import com.example.votingsystem.fragment.CandidateFragment;
@@ -43,13 +44,24 @@ public class AdminHomeActivity extends AppCompatActivity {
             } else if (id == R.id.nav_result) {
                 selectedFragment = new VoteResultsFragment();
             } else if (id == R.id.nav_logout) {
-                startActivity(new Intent(AdminHomeActivity.this, LoginActivity.class));
-                finish(); // Prevent going back to this activity
-                return true;
+                // Show logout confirmation dialog
+                new AlertDialog.Builder(AdminHomeActivity.this)
+                        .setTitle("Logout")
+                        .setMessage("Are you sure you want to logout?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            // Proceed with logout
+                            startActivity(new Intent(AdminHomeActivity.this, LoginActivity.class));
+                            finish(); // Prevent going back
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+
+                return true; // Don't change fragment on logout click
             }
 
             return loadFragment(selectedFragment);
         });
+
     }
 
     private boolean loadFragment(Fragment fragment) {
