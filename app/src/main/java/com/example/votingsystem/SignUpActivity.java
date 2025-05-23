@@ -61,6 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
                 Request.Method.POST,
                 ApiURLs.BASE_URL,
                 response -> {
+                    Log.d("CheckEmail", "Raw response: " + response);
                     try {
                         JSONObject jsonResponse = new JSONObject(response);
                         boolean exists = jsonResponse.getBoolean("exists");
@@ -69,20 +70,28 @@ public class SignUpActivity extends AppCompatActivity {
                             btnRegister.setEnabled(true);
                             Toast.makeText(this, "Account already exists", Toast.LENGTH_SHORT).show();
                         } else {
-                            // Email doesn't exist, proceed with registration confirmation
                             sendOTP(edtEmail.getText().toString().trim());
-
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        Log.e("CheckEmail", "JSON parsing error: " + e.getMessage());
                         btnRegister.setEnabled(true);
                         Toast.makeText(this, "Error checking email", Toast.LENGTH_SHORT).show();
                     }
                 },
                 error -> {
                     btnRegister.setEnabled(true);
+                    Log.e("CheckEmail", "Volley error: " + error.toString());
+                    if (error.networkResponse != null) {
+                        Log.e("CheckEmail", "HTTP status code: " + error.networkResponse.statusCode);
+                        if (error.networkResponse.data != null) {
+                            String errorMsg = new String(error.networkResponse.data);
+                            Log.e("CheckEmail", "Error response: " + errorMsg);
+                        }
+                    }
                     Toast.makeText(this, "Error checking email", Toast.LENGTH_SHORT).show();
                 }
+
         ) {
             @Override
             protected Map<String, String> getParams() {
