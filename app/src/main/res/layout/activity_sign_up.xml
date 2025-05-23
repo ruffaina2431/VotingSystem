@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_signuup"
     android:padding="24dp">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +19,7 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User Registration"
+            android:text="@string/user_registration"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="#000000"
@@ -34,12 +33,12 @@
             android:layout_height="48dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/edit_text_background"
-            android:hint="Full Name"
-            android:hintTextColor="#000000"
+            android:hint="@string/full_name"
             android:inputType="textPersonName"
             android:padding="12dp"
             android:textColor="#000000"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:autofillHints="name" />
 
         <!-- Email -->
 
@@ -50,20 +49,22 @@
             android:layout_height="48dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/edit_text_background"
-            android:hint="Email Address"
-            android:hintTextColor="#000000"
+            android:hint="@string/email_address"
             android:inputType="textEmailAddress"
             android:padding="12dp"
-            android:textColor="#000000"
-            android:textStyle="bold" />
+            android:textColor="#FFFFFF"
+
+            android:textStyle="bold"
+            android:autofillHints="emailAddress" />
+
 
         <EditText
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:hint="Password"
-            android:hintTextColor="#000000"
-            android:textColor="#000000"
+            android:hint="@string/password"
+            android:autofillHints="password"
+            android:textColor="#333333"
             android:textStyle="bold"
             android:padding="12dp"
             android:background="@drawable/edit_text_background"
@@ -78,16 +79,16 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="24dp"
-            android:background="@drawable/edit_text_background" />
+            android:background="@drawable/edit_text_background"
+            android:prompt="@string/role_prompt" />
 
         <Button
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="Register"
+            android:text="@string/register"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
-            android:backgroundTint="#6C63FF"
             android:background="@drawable/rounded_button" />
 
     </LinearLayout>
