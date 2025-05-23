@@ -1,18 +1,22 @@
 package com.example.votingsystem;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.votingsystem.network.ApiURLs;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -62,46 +66,70 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // Optionally check password length
         if (password.length() < 6) {
             edtPassword.setError("Password must be at least 6 characters");
             edtPassword.requestFocus();
             return;
         }
 
+
+
+        // Disable login button during request
+        btnLogin.setEnabled(false);
+
         // Proceed with login request
         StringRequest request = new StringRequest(
-                com.android.volley.Request.Method.POST,
+                Request.Method.POST,
                 ApiURLs.BASE_URL,
                 response -> {
+                    btnLogin.setEnabled(true);
+
                     try {
                         JSONObject obj = new JSONObject(response);
+
                         if (obj.getBoolean("success")) {
+                            // Successful login
                             JSONObject user = obj.getJSONObject("user");
                             int userId = user.getInt("id");
                             String role = user.getString("role");
 
+                            // Save user session
                             SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
                             prefs.edit().putInt("user_id", userId).apply();
 
                             Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
 
-                            if (role.equals("admin")) {
+                            // Redirect based on role
+                            if (role.equalsIgnoreCase("admin")) {
                                 startActivity(new Intent(this, AdminHomeActivity.class));
                             } else {
                                 startActivity(new Intent(this, HomeActivity.class));
                             }
-
                             finish();
                         } else {
-                            Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+                            // Handle different error cases
+                            String errorMessage = "Invalid credentials";
+                            if (obj.has("message")) {
+                                errorMessage = obj.getString("message");
+
+                                // Specific handling for password mismatch
+                                if (errorMessage.toLowerCase().contains("password")) {
+                                    edtPassword.setError("Incorrect password");
+                                    edtPassword.requestFocus();
+                                }
+                            }
+                            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Toast.makeText(this, "Login error", Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        Log.e("LoginError", "JSON parsing error", e);
+                        Toast.makeText(this, "Login error occurred", Toast.LENGTH_SHORT).show();
                     }
                 },
-                error -> Toast.makeText(this, "Network error", Toast.LENGTH_SHORT).show()
+                error -> {
+                    btnLogin.setEnabled(true);
+                    Toast.makeText(this, "Network error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("LoginError", "Network error", error);
+                }
         ) {
             @Override
             protected Map<String, String> getParams() {
@@ -115,5 +143,4 @@ public class LoginActivity extends AppCompatActivity {
 
         Volley.newRequestQueue(this).add(request);
     }
-
 }

@@ -38,18 +38,6 @@
             android:exported="false">
         </activity>
         <activity
-            android:name=".ResultActivity"
-            android:exported="false" />
-        <activity
-            android:name=".VoteActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CandidatesDetail"
-            android:exported="false" />
-        <activity
-            android:name=".CandidatesActivity"
-            android:exported="false" />
-        <activity
             android:name=".HomeActivity"
             android:exported="false" >
 
