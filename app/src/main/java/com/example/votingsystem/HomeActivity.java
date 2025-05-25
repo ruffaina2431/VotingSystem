@@ -60,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
                 selectedFragment = new CandidateFragment();
             } else if (id == R.id.nav_vote) {
                 selectedFragment = new VoteFragment();
-            } else if (id == R.id.nav_result) {
+            }else if (id == R.id.nav_result) {
                 selectedFragment = new VoteResultsFragment();
             } else if (id == R.id.nav_logout) {
                 // Show confirmation dialog before logging out

@@ -3,6 +3,8 @@ package com.example.votingsystem.network;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.android.volley.*;
 import com.android.volley.toolbox.*;
 import org.json.*;
@@ -40,12 +42,31 @@ public class CandidateRequest {
                                     Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
         StringRequest request = new StringRequest(
                 Request.Method.POST,
-                ApiURLs.BASE_URL, // Using your single POST endpoint
+                ApiURLs.BASE_URL, // Make sure this is your PHP endpoint URL
                 response -> {
                     try {
-                        listener.onResponse(new JSONObject(response)); // Parsing the response
+                        JSONObject json = new JSONObject(response);
+                        boolean success = json.getBoolean("success");
+
+                        if (!success) {
+                            String message = json.optString("message", "Failed to add candidate.");
+                            new AlertDialog.Builder(context)
+                                    .setTitle("Error")
+                                    .setMessage(message)
+                                    .setPositiveButton("OK", null)
+                                    .show();
+                        }
+
+                        // Always send response back to listener
+                        listener.onResponse(json);
+
                     } catch (JSONException e) {
-                        errorListener.onErrorResponse(new VolleyError(e)); // Handling error
+                        e.printStackTrace();
+                        new AlertDialog.Builder(context)
+                                .setTitle("Error")
+                                .setMessage("Invalid server response")
+                                .setPositiveButton("OK", null)
+                                .show();
                     }
                 },
                 errorListener
@@ -53,15 +74,17 @@ public class CandidateRequest {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("action", "create_candidate"); // Action to create a candidate
-                params.put("name", name); // Candidate's name
-                params.put("position", position); // Candidate's position
-                params.put("party", party); // Candidate's party
-                return params; // Return the parameters to be sent to the server
+                params.put("action", "create_candidate");
+                params.put("name", name);
+                params.put("position", position);
+                params.put("party", party);
+                return params;
             }
         };
-        VolleySingleton.getInstance(context).addToRequestQueue(request); // Use Singleton to add to the request queue
+
+        VolleySingleton.getInstance(context).addToRequestQueue(request);
     }
+
 
 
     public static void updateCandidate(Context context, int id, String name, String position, String party, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {

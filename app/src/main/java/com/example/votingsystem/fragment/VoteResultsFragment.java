@@ -18,8 +18,11 @@ import com.example.votingsystem.network.CandidateRequest;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class VoteResultsFragment extends Fragment {
 

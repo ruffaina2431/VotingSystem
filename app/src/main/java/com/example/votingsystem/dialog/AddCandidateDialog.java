@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import org.json.JSONException;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
@@ -26,7 +27,6 @@ public class AddCandidateDialog extends DialogFragment {
         return new AddCandidateDialog();
     }
 
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Context context = requireContext();
@@ -43,15 +43,27 @@ public class AddCandidateDialog extends DialogFragment {
             String party = etParty.getText().toString().trim();
 
             if (name.isEmpty() || position.isEmpty() || party.isEmpty()) {
-                Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Error")
+                        .setMessage("Please fill all fields")
+                        .setPositiveButton("OK", null)
+                        .show();
+
                 return;
             }
 
             CandidateRequest.addCandidate(context, name, position, party, response -> {
-                Toast.makeText(context, "Candidate added", Toast.LENGTH_SHORT).show();
-                dismiss();
-                if (onCandidateAddedCallback != null) {
-                    onCandidateAddedCallback.run();
+                try {
+                    if (response.getBoolean("success")) {
+                        Toast.makeText(context, "Candidate added", Toast.LENGTH_SHORT).show();
+                        dismiss();
+                        if (onCandidateAddedCallback != null) {
+                            onCandidateAddedCallback.run();
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }, error -> {
                 Toast.makeText(context, "Failed to add candidate", Toast.LENGTH_SHORT).show();

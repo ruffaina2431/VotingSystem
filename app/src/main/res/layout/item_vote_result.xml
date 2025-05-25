@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="@drawable/bg_card"
+    android:layout_marginBottom="10dp">
+
+    <TextView
+        android:id="@+id/textCandidateName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Candidate Name"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/textCandidatePosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Position"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textCandidateParty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Party"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textVoteCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Votes: 0"
+        android:textSize="16sp"
+        android:textColor="@android:color/holo_blue_dark"/>
+</LinearLayout>

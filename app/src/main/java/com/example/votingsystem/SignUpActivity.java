@@ -16,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.votingsystem.network.ApiURLs;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -274,12 +275,18 @@ public class SignUpActivity extends AppCompatActivity {
                 ApiURLs.BASE_URL,
                 response -> {
                     btnRegister.setEnabled(true);
-                    Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show();
-                    finish();
+                    new AlertDialog.Builder(this)
+                            .setTitle("Success")
+                            .setMessage("Registration successful!")
+                            .setPositiveButton("OK", (dialog, which) -> {
+                                finish(); // Close the activity *after* user taps OK
+                            })
+                            .show();
+
                 },
                 error -> {
                     btnRegister.setEnabled(true);
-                    Toast.makeText(this, "Registration failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Registration failed", Toast.LENGTH_LONG).show();
                 }
         ) {
             @Override

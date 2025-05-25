@@ -2,17 +2,14 @@ package com.example.votingsystem;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.votingsystem.fragment.AdminCandidatesFragment;
-import com.example.votingsystem.fragment.CandidateFragment;
+import com.example.votingsystem.fragment.AdminVoteResultsFragment;
 import com.example.votingsystem.fragment.VoteFragment;
-import com.example.votingsystem.fragment.VoteResultsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class AdminHomeActivity extends AppCompatActivity {
@@ -41,8 +38,8 @@ public class AdminHomeActivity extends AppCompatActivity {
                 selectedFragment = new AdminCandidatesFragment();
             } else if (id == R.id.nav_vote) {
                 selectedFragment = new VoteFragment();
-            } else if (id == R.id.nav_result) {
-                selectedFragment = new VoteResultsFragment();
+            }else if (id == R.id.nav_result) {
+                selectedFragment = new AdminVoteResultsFragment();
             } else if (id == R.id.nav_logout) {
                 // Show logout confirmation dialog
                 new AlertDialog.Builder(AdminHomeActivity.this)
