@@ -9,15 +9,15 @@ import org.json.*;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import com.example.votingsystem.util.SharedPrefManager;
 public class CandidateRequest {
 
     public static void getAllCandidates(Context context, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
-            StringRequest request = new StringRequest(
+        StringRequest request = new StringRequest(
                 Request.Method.POST,
                 ApiURLs.BASE_URL,
                 response -> {
-                    Log.d("CANDIDATE_RESPONSE", response); // Log the raw response
+                    Log.d("CANDIDATE_RESPONSE", response);
                     try {
                         listener.onResponse(new JSONObject(response));
                     } catch (JSONException e) {
@@ -29,23 +29,23 @@ public class CandidateRequest {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("action", "read_candidates"); // <- match your PHP switch case
+                params.put("action", "read_candidates");
                 return params;
             }
         };
-        Volley.newRequestQueue(context).add(request);
+        VolleySingleton.getInstance(context).addToRequestQueue(request);
     }
 
     public static void addCandidate(Context context, String name, String position, String party,
                                     Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
         StringRequest request = new StringRequest(
                 Request.Method.POST,
-                ApiURLs.BASE_URL, // Using your single POST endpoint
+                ApiURLs.BASE_URL,
                 response -> {
                     try {
-                        listener.onResponse(new JSONObject(response)); // Parsing the response
+                        listener.onResponse(new JSONObject(response));
                     } catch (JSONException e) {
-                        errorListener.onErrorResponse(new VolleyError(e)); // Handling error
+                        errorListener.onErrorResponse(new VolleyError(e));
                     }
                 },
                 errorListener
@@ -53,18 +53,18 @@ public class CandidateRequest {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("action", "create_candidate"); // Action to create a candidate
-                params.put("name", name); // Candidate's name
-                params.put("position", position); // Candidate's position
-                params.put("party", party); // Candidate's party
-                return params; // Return the parameters to be sent to the server
+                params.put("action", "create_candidate");
+                params.put("name", name);
+                params.put("position", position);
+                params.put("party", party);
+                return params;
             }
         };
-        VolleySingleton.getInstance(context).addToRequestQueue(request); // Use Singleton to add to the request queue
+        VolleySingleton.getInstance(context).addToRequestQueue(request);
     }
 
-
-    public static void updateCandidate(Context context, int id, String name, String position, String party, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
+    public static void updateCandidate(Context context, int id, String name, String position, String party,
+                                       Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
         StringRequest request = new StringRequest(
                 Request.Method.POST,
                 ApiURLs.BASE_URL,
@@ -87,7 +87,7 @@ public class CandidateRequest {
                 return params;
             }
         };
-        Volley.newRequestQueue(context).add(request);
+        VolleySingleton.getInstance(context).addToRequestQueue(request);
     }
 
     public static void deleteCandidate(Context context, int candidateId,
@@ -113,12 +113,12 @@ public class CandidateRequest {
                 return params;
             }
         };
-
-        Volley.newRequestQueue(context).add(request);
+        VolleySingleton.getInstance(context).addToRequestQueue(request);
     }
 
-    public static void voteForCandidate(Context context, int studentId, int candidateId, String position, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener)
-    {    StringRequest request = new StringRequest(
+    public static void voteForCandidate(Context context, int studentId, int candidateId, String position,
+                                        Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
+        StringRequest request = new StringRequest(
                 Request.Method.POST,
                 ApiURLs.BASE_URL,
                 response -> {
@@ -138,11 +138,75 @@ public class CandidateRequest {
                 params.put("position", position);
                 return params;
             }
-    };
-        Volley.newRequestQueue(context).add(request);
+        };
+        VolleySingleton.getInstance(context).addToRequestQueue(request);
     }
 
-    public static void getVoteResults(Context context, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
+    public static void finalizeCandidates(Context context,
+                                          Response.Listener<JSONObject> listener,
+                                          Response.ErrorListener errorListener) {
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                ApiURLs.BASE_URL,
+                response -> {
+                    try {
+                        listener.onResponse(new JSONObject(response));
+                    } catch (JSONException e) {
+                        errorListener.onErrorResponse(new VolleyError(e));
+                    }
+                },
+                errorListener) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("action", "finalize_candidates");
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + SharedPrefManager.getInstance(context).getToken());
+                return headers;
+            }
+        };
+        VolleySingleton.getInstance(context).addToRequestQueue(request);
+    }
+
+    public static void checkFinalizationStatus(Context context,
+                                               Response.Listener<JSONObject> listener,
+                                               Response.ErrorListener errorListener) {
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                ApiURLs.BASE_URL,
+                response -> {
+                    try {
+                        listener.onResponse(new JSONObject(response));
+                    } catch (JSONException e) {
+                        errorListener.onErrorResponse(new VolleyError(e));
+                    }
+                },
+                errorListener) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("action", "check_finalization");
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + SharedPrefManager.getInstance(context).getToken());
+                return headers;
+            }
+        };
+        VolleySingleton.getInstance(context).addToRequestQueue(request);
+    }
+
+    public static void getVoteResults(Context context,
+                                      Response.Listener<JSONObject> listener,
+                                      Response.ErrorListener errorListener) {
         StringRequest request = new StringRequest(
                 Request.Method.POST,
                 ApiURLs.BASE_URL,
@@ -161,8 +225,6 @@ public class CandidateRequest {
                 return params;
             }
         };
-        Volley.newRequestQueue(context).add(request);
+        VolleySingleton.getInstance(context).addToRequestQueue(request);
     }
-
-
 }

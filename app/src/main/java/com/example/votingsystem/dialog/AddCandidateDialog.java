@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
@@ -18,17 +20,42 @@ import com.example.votingsystem.network.CandidateRequest;
 public class AddCandidateDialog extends DialogFragment {
     private EditText etName, etPosition, etParty;
     private Button btnSubmit;
-
-    private static Runnable onCandidateAddedCallback;
+    private Runnable refreshCallback;
+    private int candidateId = -1; // -1 indicates new candidate
 
     public static AddCandidateDialog newInstance(Runnable callback) {
-        onCandidateAddedCallback = callback;
-        return new AddCandidateDialog();
+        AddCandidateDialog dialog = new AddCandidateDialog();
+        dialog.setRefreshCallback(callback);
+        return dialog;
     }
 
+    public static AddCandidateDialog newInstanceForEdit(int id, String name, String position, String party, Runnable callback) {
+        AddCandidateDialog dialog = new AddCandidateDialog();
+        Bundle args = new Bundle();
+        args.putInt("candidate_id", id);
+        args.putString("name", name);
+        args.putString("position", position);
+        args.putString("party", party);
+        dialog.setArguments(args);
+        dialog.setRefreshCallback(callback);
+        return dialog;
+    }
+
+    public void setRefreshCallback(Runnable callback) {
+        this.refreshCallback = callback;
+    }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            candidateId = getArguments().getInt("candidate_id", -1);
+        }
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Context context = requireContext();
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_add_candidate, null);
 
@@ -37,30 +64,64 @@ public class AddCandidateDialog extends DialogFragment {
         etParty = view.findViewById(R.id.etParty);
         btnSubmit = view.findViewById(R.id.btnSubmit);
 
-        btnSubmit.setOnClickListener(v -> {
-            String name = etName.getText().toString().trim();
-            String position = etPosition.getText().toString().trim();
-            String party = etParty.getText().toString().trim();
+        // If editing, populate fields and change button text
+        if (getArguments() != null) {
+            etName.setText(getArguments().getString("name", ""));
+            etPosition.setText(getArguments().getString("position", ""));
+            etParty.setText(getArguments().getString("party", ""));
+            btnSubmit.setText("Update Candidate");
+        }
 
-            if (name.isEmpty() || position.isEmpty() || party.isEmpty()) {
-                Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show();
-                return;
-            }
+        btnSubmit.setOnClickListener(v -> handleSubmit());
 
-            CandidateRequest.addCandidate(context, name, position, party, response -> {
-                Toast.makeText(context, "Candidate added", Toast.LENGTH_SHORT).show();
-                dismiss();
-                if (onCandidateAddedCallback != null) {
-                    onCandidateAddedCallback.run();
-                }
-            }, error -> {
-                Toast.makeText(context, "Failed to add candidate", Toast.LENGTH_SHORT).show();
-            });
-        });
+        AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                .setView(view);
 
-        return new AlertDialog.Builder(context)
-                .setTitle("Add Candidate")
-                .setView(view)
-                .create();
+        if (candidateId == -1) {
+            builder.setTitle("Add Candidate");
+        } else {
+            builder.setTitle("Edit Candidate");
+        }
+
+        return builder.create();
+    }
+
+    private void handleSubmit() {
+        Context context = requireContext();
+        String name = etName.getText().toString().trim();
+        String position = etPosition.getText().toString().trim();
+        String party = etParty.getText().toString().trim();
+
+        if (name.isEmpty() || position.isEmpty() || party.isEmpty()) {
+            Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (candidateId == -1) {
+            // Add new candidate
+            CandidateRequest.addCandidate(context, name, position, party,
+                    response -> handleSuccess("Candidate added"),
+                    error -> handleError("Failed to add candidate")
+            );
+        } else {
+            // Update existing candidate
+            CandidateRequest.updateCandidate(context, candidateId, name, position, party,
+                    response -> handleSuccess("Candidate updated"),
+                    error -> handleError("Failed to update candidate")
+            );
+        }
+    }
+
+    private void handleSuccess(String message) {
+        Context context = requireContext();
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        dismiss();
+        if (refreshCallback != null) {
+            refreshCallback.run();
+        }
+    }
+
+    private void handleError(String message) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

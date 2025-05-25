@@ -112,12 +112,15 @@ public class LoginActivity extends AppCompatActivity {
                             if (obj.has("message")) {
                                 errorMessage = obj.getString("message");
 
-                                // Specific handling for password mismatch
                                 if (errorMessage.toLowerCase().contains("password")) {
                                     edtPassword.setError("Incorrect password");
                                     edtPassword.requestFocus();
+                                } else if (errorMessage.toLowerCase().contains("email") || errorMessage.toLowerCase().contains("user")) {
+                                    edtEmail.setError("Email not found");
+                                    edtEmail.requestFocus();
                                 }
                             }
+
                             Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
