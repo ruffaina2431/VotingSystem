@@ -186,6 +186,55 @@ public class CandidateRequest {
         };
         Volley.newRequestQueue(context).add(request);
     }
+    public static void startElection(Context context,
+                                     Response.Listener<JSONObject> listener,
+                                     Response.ErrorListener errorListener) {
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                ApiURLs.BASE_URL,
+                response -> {
+                    try {
+                        listener.onResponse(new JSONObject(response));
+                    } catch (JSONException e) {
+                        errorListener.onErrorResponse(new VolleyError(e));
+                    }
+                },
+                errorListener
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("action", "start_election");
+                return params;
+            }
+        };
+        Volley.newRequestQueue(context).add(request);
+    }
+
+    public static void resetElection(Context context,
+                                     Response.Listener<JSONObject> listener,
+                                     Response.ErrorListener errorListener) {
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                ApiURLs.BASE_URL,
+                response -> {
+                    try {
+                        listener.onResponse(new JSONObject(response));
+                    } catch (JSONException e) {
+                        errorListener.onErrorResponse(new VolleyError(e));
+                    }
+                },
+                errorListener
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("action", "reset_election");
+                return params;
+            }
+        };
+        Volley.newRequestQueue(context).add(request);
+    }
 
 
 }

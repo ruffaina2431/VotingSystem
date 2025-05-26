@@ -1,5 +1,5 @@
+// === AdminCandidatesAdapter.java ===
 package com.example.votingsystem.adapter;
-import com.example.votingsystem.dialog.EditCandidateDialog;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,13 +12,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
-
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.votingsystem.R;
+import com.example.votingsystem.dialog.EditCandidateDialog;
 import com.example.votingsystem.model.Candidates;
 import com.example.votingsystem.network.CandidateRequest;
-
 
 import org.json.JSONException;
 
@@ -28,74 +27,63 @@ public class AdminCandidatesAdapter extends RecyclerView.Adapter<AdminCandidates
 
     private List<Candidates> candidatesList;
     private Context context;
+    private boolean electionStarted = false;
 
     public AdminCandidatesAdapter(List<Candidates> candidatesList, Context context) {
         this.candidatesList = candidatesList;
         this.context = context;
     }
 
+    public void setElectionStarted(boolean started) {
+        this.electionStarted = started;
+    }
+
     @NonNull
     @Override
-    public AdminCandidatesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.admin_candidate_item, parent, false);
         return new ViewHolder(view);
-
-
     }
 
     @Override
-    public void onBindViewHolder(AdminCandidatesAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Candidates candidate = candidatesList.get(position);
-
         holder.nameText.setText(candidate.getName());
         holder.positionText.setText(candidate.getPosition());
         holder.partyText.setText(candidate.getParty());
+
+        holder.btnEdit.setEnabled(!electionStarted);
+        holder.btnDelete.setEnabled(!electionStarted);
 
         holder.btnEdit.setOnClickListener(v -> {
             EditCandidateDialog dialog = EditCandidateDialog.newInstance(candidate, () -> {
                 notifyItemChanged(holder.getAdapterPosition());
             });
-
             dialog.show(((FragmentActivity) context).getSupportFragmentManager(), "editCandidate");
         });
-
-
 
         holder.btnDelete.setOnClickListener(v -> {
             new AlertDialog.Builder(context)
                     .setTitle("Delete Candidate")
                     .setMessage("Are you sure you want to delete " + candidate.getName() + "?")
                     .setPositiveButton("Yes", (dialog, which) -> {
-                        if (position != RecyclerView.NO_POSITION) {
-                            CandidateRequest.deleteCandidate(
-                                    context,
-                                    candidate.getId(),
-                                    response -> {
-                                        try {
-                                            if (response.getBoolean("success")) {
-                                                candidatesList.remove(position);
-                                                notifyItemRemoved(position);
-                                                Toast.makeText(context, "Candidate deleted", Toast.LENGTH_SHORT).show();
-                                            } else {
-                                                Toast.makeText(context, "Delete failed", Toast.LENGTH_SHORT).show();
-                                            }
-                                        } catch (JSONException e) {
-                                            Toast.makeText(context, "Response error", Toast.LENGTH_SHORT).show();
-                                            e.printStackTrace();
-                                        }
-                                    },
-                                    error -> {
-                                        Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show();
-                                        error.printStackTrace();
-                                    }
-                            );
-                        }
+                        CandidateRequest.deleteCandidate(context, candidate.getId(), response -> {
+                            try {
+                                if (response.getBoolean("success")) {
+                                    candidatesList.remove(position);
+                                    notifyItemRemoved(position);
+                                    Toast.makeText(context, "Candidate deleted", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(context, "Delete failed", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                Toast.makeText(context, "Response error", Toast.LENGTH_SHORT).show();
+                            }
+                        }, error -> Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show());
                     })
                     .setNegativeButton("Cancel", null)
                     .show();
         });
-
-
     }
 
     @Override

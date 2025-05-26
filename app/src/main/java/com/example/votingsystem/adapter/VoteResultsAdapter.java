@@ -6,53 +6,53 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.votingsystem.R;
 import com.example.votingsystem.model.Candidates;
+import com.example.votingsystem.model.VoteResult;
 
 import java.util.List;
 
-public class VoteResultsAdapter extends RecyclerView.Adapter<VoteResultsAdapter.ViewHolder> {
+public class VoteResultsAdapter extends RecyclerView.Adapter<VoteResultsAdapter.VoteResultViewHolder> {
 
-    private List<Candidates> candidates;
-    private Context context;
+    private final List<VoteResult> results;
 
-    public VoteResultsAdapter(List<Candidates> candidates, Context context) {
-        this.candidates = candidates;
-        this.context = context;
+    public VoteResultsAdapter(List<VoteResult> results) {
+        this.results = results;
+    }
+
+    @NonNull
+    @Override
+    public VoteResultsAdapter.VoteResultViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_vote_result, parent, false);
+        return new VoteResultsAdapter.VoteResultViewHolder(view);
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.candidate_item_result, parent, false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Candidates candidate = candidates.get(position);
-        holder.name.setText(candidate.getName());
-        holder.position.setText(candidate.getPosition());
-        holder.party.setText(candidate.getParty());
-        holder.voteCount.setText("Votes: " + candidate.getVoteCount());
+    public void onBindViewHolder(@NonNull VoteResultsAdapter.VoteResultViewHolder holder, int position) {
+        VoteResult result = results.get(position);
+        holder.textName.setText(result.getName());
+        holder.textPosition.setText(result.getPosition());
+        holder.textParty.setText(result.getParty());
+        holder.textVotes.setText("Votes: " + result.getVoteCount());
     }
 
     @Override
     public int getItemCount() {
-        return candidates.size();
+        return results.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class VoteResultViewHolder extends RecyclerView.ViewHolder {
+        TextView textName, textPosition, textParty, textVotes;
 
-        TextView name, position, party, voteCount;
-
-        public ViewHolder(View itemView) {
+        public VoteResultViewHolder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.candidate_name);
-            position = itemView.findViewById(R.id.candidate_position);
-            party = itemView.findViewById(R.id.candidate_party);
-            voteCount = itemView.findViewById(R.id.candidate_vote_count);
+            textName = itemView.findViewById(R.id.textCandidateName);
+            textPosition = itemView.findViewById(R.id.textCandidatePosition);
+            textParty = itemView.findViewById(R.id.textCandidateParty);
+            textVotes = itemView.findViewById(R.id.textVoteCount);
         }
     }
 }
