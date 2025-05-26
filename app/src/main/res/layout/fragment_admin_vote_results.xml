@@ -14,7 +14,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10mm"
+        android:layout_marginTop="1mm"
         android:layout_marginBottom="16dp" />
 
     <!-- Current Schedule Display -->
@@ -25,18 +25,28 @@
         android:text="Current schedule: Not set"
         android:textSize="16sp"
         android:layout_below="@id/textTitle"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="1mm"
         android:layout_centerHorizontal="true"/>
 
     <!-- Button to Set Schedule -->
+    <Button
+        android:id="@+id/btnClearResults"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear Result"
+        android:layout_below="@id/textCurrentSchedule"
+        android:layout_marginTop="1mm"
+        android:layout_centerHorizontal="true"/>
+
     <Button
         android:id="@+id/btnSetSchedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Set/Update Result Release"
         android:layout_below="@id/textCurrentSchedule"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10mm"
         android:layout_centerHorizontal="true"/>
+
 
     <!-- No candidates message -->
     <TextView
