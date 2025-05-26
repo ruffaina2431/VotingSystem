@@ -8,5 +8,9 @@
     <string name="register">Register</string>
     <string name="select_role">Select Role</string>
     <string name="role_prompt">Select Role</string>
+    <string name="todo">TODO</string>
+    <string name="candidate_name">Candidate Name</string>
+    <string name="back_to_list">Back to List</string>
+    <string name="candidate_description">Candidate Description</string>
 
 </resources>
