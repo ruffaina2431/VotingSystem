@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_voteresult"
     android:padding="8dp">
     <TextView
         android:id="@+id/txtNoCandidates"
@@ -11,14 +12,15 @@
         android:text="No one to vote results available."
         android:textAlignment="center"
         android:visibility="gone"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:layout_marginTop="20dp"
         />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_candidates"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="20dp"/>
+        android:layout_height="634dp"
+        android:layout_marginTop="20dp" />
 
 
 </LinearLayout>

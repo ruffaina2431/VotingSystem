@@ -10,7 +10,7 @@
         android:id="@+id/textCandidateName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Candidate Name"
+        android:text="Candidate Name:"
         android:textSize="18sp"
         android:textStyle="bold"/>
 
@@ -18,21 +18,24 @@
         android:id="@+id/textCandidatePosition"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Position"
-        android:textSize="16sp" />
+        android:text="Position:"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/textCandidateParty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Party"
-        android:textSize="16sp" />
+        android:text="Party:"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/textVoteCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Votes: 0"
-        android:textSize="16sp"
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:textColor="@android:color/holo_blue_dark"/>
 </LinearLayout>
