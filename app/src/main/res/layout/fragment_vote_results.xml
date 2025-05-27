@@ -3,7 +3,8 @@
     android:id="@+id/admin_result_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:background="@drawable/bg_voteresult"
+    android:padding="20dp">
 
     <!-- Title -->
     <TextView
@@ -15,15 +16,17 @@
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="1mm"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        />
 
     <!-- Current Schedule Display -->
     <TextView
         android:id="@+id/textUserSchedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Current schedule: Not set"
+        android:text="Current Schedule: Not Set"
         android:textSize="16sp"
+        android:textStyle="bold"
         android:layout_below="@id/textTitle"
         android:layout_marginTop="1mm"
         android:layout_centerHorizontal="true"/>
@@ -47,6 +50,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/txtNoCandidates"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="20dp"/>
 
 </RelativeLayout>
