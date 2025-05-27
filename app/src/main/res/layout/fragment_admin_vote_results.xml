@@ -3,7 +3,8 @@
     android:id="@+id/admin_result_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/frag_adm_results">
 
     <!-- Title -->
     <TextView
@@ -12,6 +13,7 @@
         android:layout_height="wrap_content"
         android:text="Result Release Schedule"
         android:textSize="20sp"
+        android:textColor="#F3EDED"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="1mm"
@@ -24,6 +26,7 @@
         android:layout_height="wrap_content"
         android:text="Current schedule: Not set"
         android:textSize="16sp"
+        android:textColor="#F3EDED"
         android:layout_below="@id/textTitle"
         android:layout_marginTop="1mm"
         android:layout_centerHorizontal="true"/>

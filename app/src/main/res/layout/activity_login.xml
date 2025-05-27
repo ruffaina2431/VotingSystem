@@ -3,29 +3,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:background="@drawable/home">
+
     <TextView
-        android:layout_marginTop="50dp"
-        android:gravity="center"
-        android:textSize="24sp"
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="LOG IN" />
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:text="LOG IN"
+        android:textSize="24sp"/>
 
     <EditText
         android:id="@+id/edtEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:hint="Email" />
+        android:hint="Email"
+        android:textColor="#F3EDED"/>
 
     <EditText
         android:id="@+id/edtPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:textColor="#F3EDED"/>
 
     <Button
         android:id="@+id/btnLogin"
@@ -37,7 +41,7 @@
         android:id="@+id/btnSignUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SignUp" />
+        android:text="Sign Up" />
 
 
 </LinearLayout>

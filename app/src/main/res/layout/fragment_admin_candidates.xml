@@ -4,7 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:background="@drawable/frag_adm_cand">
 
     <TextView
         android:id="@+id/txt_no_candidates"
@@ -14,13 +15,14 @@
         android:textAlignment="center"
         android:visibility="gone"
         android:textSize="16sp"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_candidates"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:textColor="#F3EDED"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,6 +37,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="#F3EDED"
             android:text="Add"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
@@ -44,6 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Start"
+            android:textColor="#F3EDED"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"/>
@@ -53,6 +57,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="#F3EDED"
             android:text="Reset"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
     </LinearLayout>
