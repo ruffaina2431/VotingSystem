@@ -171,6 +171,7 @@ public class AdminCandidatesFragment extends Fragment {
         }, error -> {
             Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
             error.printStackTrace();
+
         });
     }
 }

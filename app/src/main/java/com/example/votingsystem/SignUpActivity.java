@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
-    EditText edtName, edtEmail, edtPassword;
+    EditText edtName, edtEmail, edtPassword, edtConfirmPassword;
     Spinner spinnerRole;
     Button btnRegister;
 
@@ -37,6 +37,7 @@ public class SignUpActivity extends AppCompatActivity {
         edtName = findViewById(R.id.etName);
         edtEmail = findViewById(R.id.etEmail);
         edtPassword = findViewById(R.id.etPassword);
+        edtConfirmPassword = findViewById(R.id.etConfirmPassword);
         spinnerRole = findViewById(R.id.spinnerRole);
         btnRegister = findViewById(R.id.btnRegister);
 
@@ -223,6 +224,7 @@ public class SignUpActivity extends AppCompatActivity {
         String name = edtName.getText().toString().trim();
         String email = edtEmail.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
+        String confirmPassword = edtConfirmPassword.getText().toString().trim();
 
         if (name.isEmpty()) {
             edtName.setError("Name is required");
@@ -260,8 +262,21 @@ public class SignUpActivity extends AppCompatActivity {
             return false;
         }
 
+        if (confirmPassword.isEmpty()) {
+            edtConfirmPassword.setError("Please confirm your password");
+            edtConfirmPassword.requestFocus();
+            return false;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            edtConfirmPassword.setError("Passwords do not match");
+            edtConfirmPassword.requestFocus();
+            return false;
+        }
+
         return true;
     }
+
 
     private void registerUser() {
         String name = edtName.getText().toString().trim();
