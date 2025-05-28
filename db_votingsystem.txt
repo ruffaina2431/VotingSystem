@@ -1,0 +1,59 @@
+
+CREATE TABLE IF NOT EXISTS candidates (
+  id INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(100) COLLATE utf8mb4_general_ci NOT NULL,
+  position VARCHAR(100) COLLATE utf8mb4_general_ci NOT NULL,
+  party VARCHAR(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE IF NOT EXISTS election_state (
+  id INT NOT NULL DEFAULT '1',
+  is_started TINYINT(1) NOT NULL DEFAULT '0',
+  official_end_time BIGINT DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE IF NOT EXISTS otps (
+  id INT NOT NULL AUTO_INCREMENT,
+  email VARCHAR(100) COLLATE utf8mb4_general_ci NOT NULL,
+  otp INT NOT NULL,
+  expiry DATETIME NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  used TINYINT(1) DEFAULT '0',
+  PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE IF NOT EXISTS result_schedule (
+  id INT NOT NULL AUTO_INCREMENT,
+  scheduled_at DATETIME NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE IF NOT EXISTS users (
+  id INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(100) COLLATE utf8mb4_general_ci NOT NULL,
+  email VARCHAR(100) COLLATE utf8mb4_general_ci NOT NULL,
+  password VARCHAR(255) COLLATE utf8mb4_general_ci NOT NULL,
+  role ENUM('admin','student') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'student',
+  created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY email (email)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE IF NOT EXISTS votes (
+  id INT NOT NULL AUTO_INCREMENT,
+  student_id INT NOT NULL,
+  candidate_id INT NOT NULL,
+  position VARCHAR(100) COLLATE utf8mb4_general_ci NOT NULL,
+  voted_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY student_id (student_id),
+  KEY candidate_id (candidate_id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
