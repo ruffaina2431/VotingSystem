@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    tools:context=".FrontpageActivity">
+
+    <!-- App Logo/Title -->
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/app_logo" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Welcome"
+        android:textColor="#FFFFFF"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
+    <!-- "Vote Wisely" Text -->
+    <TextView
+        android:id="@+id/tvVoteWisely"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:text="Vote Wisely"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp" />
+
+    <!-- Vote Now Button -->
+    <Button
+        android:id="@+id/btnVoteNow"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/tvVoteWisely"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="#4CAF50"
+        android:text="VOTE NOW"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+
+
+    <!-- Help Button (Top Right) -->
+    <ImageButton
+        android:id="@+id/btnHelp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_help" />
+
+    <!-- Footer Text -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:text="Voting System"
+        android:textColor="#80FFFFFF"
+        android:textSize="12sp" />
+
+</RelativeLayout>

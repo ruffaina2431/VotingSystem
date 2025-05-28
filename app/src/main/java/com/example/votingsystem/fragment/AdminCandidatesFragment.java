@@ -55,8 +55,15 @@ public class AdminCandidatesFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         btnAddCandidate.setOnClickListener(v -> {
-            AddCandidateDialog dialog = AddCandidateDialog.newInstance(this::loadCandidates);
-            dialog.show(getParentFragmentManager(), "addCandidate");
+
+            if(electionStarted){
+                btnAddCandidate.setEnabled(false);
+            }
+            else{
+                AddCandidateDialog dialog = AddCandidateDialog.newInstance(this::loadCandidates);
+                dialog.show(getParentFragmentManager(), "addCandidate");
+            }
+
         });
 
         btnStartVoting.setOnClickListener(v -> {
@@ -131,8 +138,6 @@ public class AdminCandidatesFragment extends Fragment {
                         .apply();
             }, error -> Toast.makeText(getContext(), "Reset failed", Toast.LENGTH_SHORT).show());
         });
-
-
 
         loadCandidates();
         return view;

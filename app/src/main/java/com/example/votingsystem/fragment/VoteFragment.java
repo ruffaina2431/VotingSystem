@@ -30,9 +30,7 @@ public class VoteFragment extends Fragment {
     private List<Candidates> candidateList = new ArrayList<>();
     private int studentId;
 
-    public VoteFragment() {
-        // Required empty public constructor
-    }
+    public VoteFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,24 +40,41 @@ public class VoteFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view_candidates);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        SharedPreferences prefs = requireContext().getSharedPreferences("user_session", Context.MODE_PRIVATE);
-        studentId = prefs.getInt("user_id", -1);
+        SharedPreferences userPrefs = requireContext().getSharedPreferences("user_session", Context.MODE_PRIVATE);
+        SharedPreferences electionPrefs = requireContext().getSharedPreferences("election_prefs", Context.MODE_PRIVATE);
+        studentId = userPrefs.getInt("user_id", -1);
+        String endTime = electionPrefs.getString("official_end_time", "0");
 
         if (studentId == -1) {
             Toast.makeText(getContext(), "User not logged in", Toast.LENGTH_SHORT).show();
             return view;
         }
 
-        loadCandidates(); // ✅ Load the list of candidates
+        if (endTime.equals("0") || Long.parseLong(endTime) <= 0) {
+            txtNoCandidates.setVisibility(View.VISIBLE);
+            txtNoCandidates.setText("Election has not started yet.");
+            recyclerView.setVisibility(View.GONE);
+            return view;
+        }
 
+
+        loadCandidates();
         return view;
     }
 
     private void loadCandidates() {
-        // You should have a method like CandidateRequest.getAllCandidates()
         CandidateRequest.getAllCandidates(getContext(), response -> {
             candidateList.clear();
             try {
+                boolean electionStarted = response.optBoolean("election_started", false);
+
+                if (!electionStarted) {
+                    txtNoCandidates.setVisibility(View.VISIBLE);
+                    txtNoCandidates.setText("Election has not started yet.");
+                    recyclerView.setVisibility(View.GONE);
+                    return;
+                }
+
                 for (int i = 0; i < response.getJSONArray("candidates").length(); i++) {
                     JSONObject candidateData = response.getJSONArray("candidates").getJSONObject(i);
                     Candidates candidate = new Candidates(
@@ -71,14 +86,15 @@ public class VoteFragment extends Fragment {
                     candidateList.add(candidate);
                 }
 
+                txtNoCandidates.setVisibility(candidateList.isEmpty() ? View.VISIBLE : View.GONE);
                 if (candidateList.isEmpty()) {
-                    txtNoCandidates.setVisibility(View.VISIBLE);
+                    txtNoCandidates.setText("No candidates available.");
                 } else {
-                    txtNoCandidates.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
                 }
 
-                // ✅ Pass studentId if needed for vote button logic
                 adapter = new VoteCandidatesAdapter(candidateList, getContext(), studentId);
+                adapter.setElectionStarted(true); // ✅ Safe now
                 recyclerView.setAdapter(adapter);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -88,4 +104,6 @@ public class VoteFragment extends Fragment {
             Toast.makeText(getContext(), "Error loading candidates", Toast.LENGTH_SHORT).show();
         });
     }
+
+
 }
