@@ -40,7 +40,6 @@ public class Candidates {
         return party;
     }
 
-    // Setters (optional, in case you want to update fields later)
     public void setId(int id) {
         this.id = id;
     }

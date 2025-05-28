@@ -27,7 +27,6 @@
         android:text="Party" />
 
 
-    <!-- Add these buttons to match your Java code -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

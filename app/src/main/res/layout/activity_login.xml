@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:hint="Email"
-        android:textColor="#F3EDED"/>
+        android:textColor="#000000"/>
 
     <EditText
         android:id="@+id/edtPassword"
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:hint="Password"
         android:inputType="textPassword"
-        android:textColor="#F3EDED"/>
+        android:textColor="#000000"/>
 
     <Button
         android:id="@+id/btnLogin"

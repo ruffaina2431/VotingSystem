@@ -3,6 +3,7 @@ package com.example.votingsystem.adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,11 +69,24 @@ public class AdminCandidatesAdapter extends RecyclerView.Adapter<AdminCandidates
                     .setMessage("Are you sure you want to delete " + candidate.getName() + "?")
                     .setPositiveButton("Yes", (dialog, which) -> {
                         CandidateRequest.deleteCandidate(context, candidate.getId(), response -> {
+                            int id = candidate.getId();
                             try {
                                 if (response.getBoolean("success")) {
-                                    candidatesList.remove(position);
-                                    notifyItemRemoved(position);
-                                    Toast.makeText(context, "Candidate deleted", Toast.LENGTH_SHORT).show();
+                                    int indexToRemove = -1;
+                                    for (int i = 0; i < candidatesList.size(); i++) {
+                                        if (candidatesList.get(i).getId() == id) {
+                                            indexToRemove = i;
+                                            break;
+                                        }
+                                    }
+                                    if (indexToRemove != -1) {
+                                        candidatesList.remove(indexToRemove);
+                                        notifyItemRemoved(indexToRemove);
+                                    } else {
+                                        Log.w("AdminCandidatesAdapter", "Candidate ID not found for removal: " + id);
+                                    }
+
+
                                 } else {
                                     Toast.makeText(context, "Delete failed", Toast.LENGTH_SHORT).show();
                                 }
