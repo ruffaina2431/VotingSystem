@@ -2,6 +2,8 @@
     <string name="app_name">VotingSystem</string>
 
     <string name="candidate_name">Candidate Name: %1$s</string>
+    <!-- res/values/strings.xml -->
+    <string name="role_prompt">Select your role</string>
 
 
 </resources>
