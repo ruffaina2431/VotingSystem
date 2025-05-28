@@ -78,6 +78,12 @@ public class VoteCandidatesAdapter extends RecyclerView.Adapter<VoteCandidatesAd
         // Disable the vote button if already voted for this position
         holder.voteButton.setEnabled(!votedPositions.contains(candidate.getPosition()));
     }
+    private boolean electionStarted = false;
+
+    public void setElectionStarted(boolean started) {
+        this.electionStarted = started;
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getItemCount() {
