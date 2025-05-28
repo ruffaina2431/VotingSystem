@@ -8,8 +8,8 @@ use PHPMailer\PHPMailer\Exception;
 
 // ========== DB CONNECTION ==========
 $host = "localhost";
-$user = "admin";
-$pass = "24(r]ipg)aGlXhwd";
+$user = "root";
+$pass = "";
 $db   = "db_votingSystem";
 
 $conn = new mysqli($host, $user, $pass, $db);
@@ -111,16 +111,21 @@ switch ($action) {
         break;
         
     case 'start_election':
-        $durationHours = 12;
-        $endTime = strtotime("+$durationHours hours") * 1000; // ms timestamp
+    $durationHours = 12;
+    $endTime = strtotime("+$durationHours hours") * 1000; // ms timestamp
 
+    // ✅ Force update only if row with id=1 exists
+    $stmt = $conn->prepare("UPDATE election_state SET is_started = 1, official_end_time = ? WHERE id = 1");
+    $stmt->bind_param("s", $endTime);
+    $stmt->execute();
 
-        $stmt = $conn->prepare("UPDATE election_state SET is_started = 1, official_end_time = ?");
-        $stmt->bind_param("s", $endTime);
-        $stmt->execute();
-
+    if ($stmt->affected_rows > 0) {
         echo json_encode(["success" => true, "official_end_time" => $endTime]);
-        break;
+    } else {
+        echo json_encode(["success" => false, "message" => "Election start failed. Ensure election_state row exists."]);
+    }
+    break;
+
 
     case 'reset_election':
         $stmt = $conn->prepare("SELECT is_started, official_end_time FROM election_state WHERE id = 1");
