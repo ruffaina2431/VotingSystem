@@ -451,4 +451,38 @@ function verifyOtp() {
     $stmt->close();
 }
 
+
+//for audit
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'log_audit') {
+    // Validate and sanitize inputs
+    $admin_id = filter_input(INPUT_POST, 'admin_id', FILTER_VALIDATE_INT);
+    $description = trim(filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING));
+    
+    // Prepare response array
+    $response = ['success' => false];
+    
+    if ($admin_id && !empty($description)) {
+        try {
+            // Use database-defined timestamp instead of user-provided one
+            $stmt = $conn->prepare("INSERT INTO audit_logs (admin_id, action_description) VALUES (?, ?)");
+            $stmt->bind_param("is", $admin_id, $description);
+            
+            if ($stmt->execute()) {
+                $response['success'] = true;
+                $response['log_id'] = $conn->insert_id;
+            } else {
+                $response['error'] = 'Database execution failed';
+            }
+        } catch (Exception $e) {
+            $response['error'] = 'Server error: ' . $e->getMessage();
+        }
+    } else {
+        $response['error'] = 'Invalid input data';
+    }
+    
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    exit;
+}
+
 $conn->close();
