@@ -85,11 +85,7 @@
         <!-- Dropdown Spinner -->
 
         <!-- Register Button -->
-        <Spinner
-            android:id="@+id/spinnerRole"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginBottom="24dp" />
+
 
         <Button
             android:id="@+id/btnRegister"

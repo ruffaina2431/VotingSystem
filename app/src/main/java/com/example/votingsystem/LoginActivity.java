@@ -47,6 +47,8 @@ public class LoginActivity extends AppCompatActivity {
         String email = edtEmail.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
 
+
+
         // Validate input
         if (email.isEmpty()) {
             edtEmail.setError("Email is required");
@@ -72,7 +74,16 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        if (email.equals("admin2025@gmail.com") && password.equals("AdminTo2025")) {
+            // Save admin session
+            SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
+            prefs.edit().putInt("user_id", 0).apply(); // 0 = reserved for hardcoded admin
 
+            Toast.makeText(this, "Admin login successful!", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, AdminHomeActivity.class));
+            finish();
+            return; // Skip server login
+        }
 
         // Disable login button during request
         btnLogin.setEnabled(false);

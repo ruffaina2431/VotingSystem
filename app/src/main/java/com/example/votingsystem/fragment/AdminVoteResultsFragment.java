@@ -1,10 +1,8 @@
 package com.example.votingsystem.fragment;
-import com.example.votingsystem.UserVote;
 import static com.example.votingsystem.network.ApiURLs.BASE_URL;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -21,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;

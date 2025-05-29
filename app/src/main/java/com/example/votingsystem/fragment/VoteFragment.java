@@ -43,19 +43,21 @@ public class VoteFragment extends Fragment {
         SharedPreferences userPrefs = requireContext().getSharedPreferences("user_session", Context.MODE_PRIVATE);
         SharedPreferences electionPrefs = requireContext().getSharedPreferences("election_prefs", Context.MODE_PRIVATE);
         studentId = userPrefs.getInt("user_id", -1);
-        String endTime = electionPrefs.getString("official_end_time", "0");
 
         if (studentId == -1) {
             Toast.makeText(getContext(), "User not logged in", Toast.LENGTH_SHORT).show();
             return view;
         }
+        boolean electionStarted = electionPrefs.getBoolean("election_started", false);
 
-        if (endTime.equals("0") || Long.parseLong(endTime) <= 0) {
+
+        if (!electionStarted) {
             txtNoCandidates.setVisibility(View.VISIBLE);
             txtNoCandidates.setText("Election has not started yet.");
             recyclerView.setVisibility(View.GONE);
             return view;
         }
+
 
 
         loadCandidates();
