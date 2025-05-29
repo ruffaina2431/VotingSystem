@@ -40,7 +40,7 @@ public class AdminCandidatesFragment extends Fragment {
     private AdminCandidatesAdapter adapter;
     private List<Candidates> candidateList = new ArrayList<>();
 
-    private boolean electionStarted = false;
+    private boolean electionStarted;
     private String officialEndTime = "";
 
     public AdminCandidatesFragment() {}
@@ -71,6 +71,7 @@ public class AdminCandidatesFragment extends Fragment {
         });
 
         btnStartVoting.setOnClickListener(v -> {
+
             if (!electionStarted) {
                 CandidateRequest.startElection(getContext(), response -> {
                     Toast.makeText(getContext(), "Election started", Toast.LENGTH_SHORT).show();

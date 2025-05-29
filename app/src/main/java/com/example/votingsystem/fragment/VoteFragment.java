@@ -51,7 +51,7 @@ public class VoteFragment extends Fragment {
         boolean electionStarted = electionPrefs.getBoolean("election_started", false);
 
 
-        if (!electionStarted) {
+        if (!electionPrefs.getBoolean("election_started", false)) {
             txtNoCandidates.setVisibility(View.VISIBLE);
             txtNoCandidates.setText("Election has not started yet.");
             recyclerView.setVisibility(View.GONE);
