@@ -139,7 +139,11 @@ public class VoteResultsFragment extends Fragment {
                     }
                 },
                 error -> Toast.makeText(getContext(), "Failed to load results", Toast.LENGTH_SHORT).show()
-        ) {
+        )
+
+
+
+        {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
@@ -150,4 +154,5 @@ public class VoteResultsFragment extends Fragment {
 
         VolleySingleton.getInstance(getContext()).addToRequestQueue(request);
     }
+
 }
