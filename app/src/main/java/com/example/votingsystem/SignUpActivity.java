@@ -63,6 +63,7 @@ public class SignUpActivity extends AppCompatActivity {
                 Request.Method.POST,
                 ApiURLs.BASE_URL,
                 response -> {
+                    Log.d("CheckEmail", "Response: " + response);
                     Log.d("CheckEmail", "Raw response: " + response);
                     try {
                         JSONObject jsonResponse = new JSONObject(response);
@@ -75,6 +76,7 @@ public class SignUpActivity extends AppCompatActivity {
                             sendOTP(edtEmail.getText().toString().trim());
                         }
                     } catch (JSONException e) {
+                        Log.e("CheckEmail", "Invalid JSON: " + response);
                         e.printStackTrace();
                         Log.e("CheckEmail", "JSON parsing error: " + e.getMessage());
                         btnRegister.setEnabled(true);
