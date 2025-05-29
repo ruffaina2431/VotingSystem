@@ -57,3 +57,13 @@ CREATE TABLE IF NOT EXISTS votes (
   KEY student_id (student_id),
   KEY candidate_id (candidate_id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE IF NOT EXISTS audit_logs (
+  id INT NOT NULL AUTO_INCREMENT,
+  admin_id INT NOT NULL,
+  action_description TEXT COLLATE utf8mb4_general_ci NOT NULL,
+  created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY admin_id (admin_id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
