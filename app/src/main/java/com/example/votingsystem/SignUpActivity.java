@@ -26,7 +26,6 @@ import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
     EditText edtName, edtEmail, edtPassword, edtConfirmPassword;
-    Spinner spinnerRole;
     Button btnRegister;
 
     @Override
@@ -38,15 +37,9 @@ public class SignUpActivity extends AppCompatActivity {
         edtEmail = findViewById(R.id.etEmail);
         edtPassword = findViewById(R.id.etPassword);
         edtConfirmPassword = findViewById(R.id.etConfirmPassword);
-        spinnerRole = findViewById(R.id.spinnerRole);
         btnRegister = findViewById(R.id.btnRegister);
 
-        // Set Spinner with only "Student"
-        String[] roles = {"Student","Admin"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, roles);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerRole.setAdapter(adapter);
-        spinnerRole.setAlpha(0.6f);
+
 
         btnRegister.setOnClickListener(v -> {
             if (validateInputs()) {
@@ -63,6 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
                 Request.Method.POST,
                 ApiURLs.BASE_URL,
                 response -> {
+                    Log.d("CheckEmail", "Response: " + response);
                     Log.d("CheckEmail", "Raw response: " + response);
                     try {
                         JSONObject jsonResponse = new JSONObject(response);
@@ -75,6 +69,7 @@ public class SignUpActivity extends AppCompatActivity {
                             sendOTP(edtEmail.getText().toString().trim());
                         }
                     } catch (JSONException e) {
+                        Log.e("CheckEmail", "Invalid JSON: " + response);
                         e.printStackTrace();
                         Log.e("CheckEmail", "JSON parsing error: " + e.getMessage());
                         btnRegister.setEnabled(true);
@@ -282,7 +277,6 @@ public class SignUpActivity extends AppCompatActivity {
         String name = edtName.getText().toString().trim();
         String email = edtEmail.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
-        String role = spinnerRole.getSelectedItem().toString().toLowerCase();
 
 
         StringRequest request = new StringRequest(
@@ -311,7 +305,6 @@ public class SignUpActivity extends AppCompatActivity {
                 data.put("name", name);
                 data.put("email", email);
                 data.put("password", password);
-                data.put("role", role);
                 return data;
             }
         };

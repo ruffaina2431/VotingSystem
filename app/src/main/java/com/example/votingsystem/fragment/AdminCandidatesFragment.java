@@ -1,8 +1,11 @@
 package com.example.votingsystem.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,7 +40,7 @@ public class AdminCandidatesFragment extends Fragment {
     private AdminCandidatesAdapter adapter;
     private List<Candidates> candidateList = new ArrayList<>();
 
-    private boolean electionStarted = false;
+    private boolean electionStarted;
     private String officialEndTime = "";
 
     public AdminCandidatesFragment() {}
@@ -67,21 +71,21 @@ public class AdminCandidatesFragment extends Fragment {
         });
 
         btnStartVoting.setOnClickListener(v -> {
+
             if (!electionStarted) {
                 CandidateRequest.startElection(getContext(), response -> {
                     Toast.makeText(getContext(), "Election started", Toast.LENGTH_SHORT).show();
                     electionStarted = true;
                     adapter.setElectionStarted(true);
+
+                    SharedPreferences prefs = getContext().getSharedPreferences("election_prefs", Context.MODE_PRIVATE);
+                    prefs.edit()
+                            .putBoolean("election_started", true)
+                            .putString("official_end_time", officialEndTime)
+                            .apply();
                     adapter.notifyDataSetChanged();
                     // Disable Add button when election starts
                     btnAddCandidate.setEnabled(false);
-                    // ✅ SET officialEndTime from response
-                    officialEndTime = response.optString("official_end_time", "0");
-                    getContext().getSharedPreferences("election_prefs", Context.MODE_PRIVATE)
-                            .edit()
-                            .putString("official_end_time", officialEndTime)
-                            .apply();
-
                 }, error -> Toast.makeText(getContext(), "Failed to start election", Toast.LENGTH_SHORT).show());
             }
         });
@@ -114,14 +118,17 @@ public class AdminCandidatesFragment extends Fragment {
                 long seconds = (timeLeftMillis / 1000) % 60;
 
                 String timeLeftStr = String.format("Election not finished yet. Time left: %02d:%02d:%02d", hours, minutes, seconds);
-                new androidx.appcompat.app.AlertDialog.Builder(getContext())
-                        .setTitle("Election Still Ongoing")
-                        .setMessage(timeLeftStr)
-                        .setPositiveButton("OK", null)
-                        .show();
+                if (getContext() instanceof Activity && !((Activity) getContext()).isFinishing()) {
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        new AlertDialog.Builder(getContext())
+                                .setTitle("Election Still Ongoing")
+                                .setMessage(timeLeftStr)
+                                .setPositiveButton("OK", null)
+                                .show();
+                    });
+                }
 
-                return;
-            }
+            }else{
 
             CandidateRequest.resetElection(getContext(), response -> {
                 Toast.makeText(getContext(), "Election reset", Toast.LENGTH_SHORT).show();
@@ -137,6 +144,7 @@ public class AdminCandidatesFragment extends Fragment {
                         .remove("official_end_time")
                         .apply();
             }, error -> Toast.makeText(getContext(), "Reset failed", Toast.LENGTH_SHORT).show());
+        }
         });
 
         loadCandidates();
