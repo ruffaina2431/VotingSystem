@@ -121,16 +121,32 @@ public class AdminVoteResultsFragment extends Fragment {
 
             pdfDocument.finishPage(page);
 
-            // Save the PDF file
-            File pdfFile = new File(requireContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "vote_results.pdf");
+            // Save the PDF file to the public Downloads directory
+            // Auto-renaming if file exists
+            String baseFileName = "vote_results";
+            String fileExtension = ".pdf";
+            File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+
+            if (!downloadsDir.exists()) {
+                downloadsDir.mkdirs();
+            }
+
+            File pdfFile = new File(downloadsDir, baseFileName + fileExtension);
+            int fileIndex = 1;
+
+            while (pdfFile.exists()) {
+                pdfFile = new File(downloadsDir, baseFileName + "(" + fileIndex + ")" + fileExtension);
+                fileIndex++;
+            }
 
             try (FileOutputStream out = new FileOutputStream(pdfFile)) {
                 pdfDocument.writeTo(out);
-                Toast.makeText(requireContext(), "PDF saved: " + pdfFile.getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "PDF saved: " + pdfFile.getName(), Toast.LENGTH_LONG).show();
                 logAuditAction("Admin downloaded vote result PDF");
             } catch (IOException e) {
-                Toast.makeText(requireContext(), "PDF save failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "PDF save failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
+
 
             pdfDocument.close();
         });
@@ -332,7 +348,7 @@ public class AdminVoteResultsFragment extends Fragment {
         super.onDestroyView();
         stopScheduleChecker();
     }
-    /*private void generatePDF(String codeResult) {
+    private void generatePDF(String codeResult) {
         PdfDocument pdfDocument = new PdfDocument();
 
         // Define page size: A4 (595x842 points)
@@ -372,7 +388,9 @@ public class AdminVoteResultsFragment extends Fragment {
         pdfDocument.close();
     }
 
-     */
+
+
+    /*
     private void generatePDFWithVoteResults(List<VoteResult> voteResults, List<UserVote> userVotes) {
         if (voteResults.isEmpty() || userVotes.isEmpty()) {
             Toast.makeText(requireContext(), "No results to export", Toast.LENGTH_SHORT).show();
@@ -508,7 +526,7 @@ public class AdminVoteResultsFragment extends Fragment {
             pdfDocument.close();
         }
     }
-
+    */
     // Inside AdminVoteResultsFragment.java
     private void logAuditAction(String actionDesc) {
         StringRequest request = new StringRequest(Request.Method.POST, BASE_URL,
